@@ -25,7 +25,7 @@
   "extends": "./ts.paths.json",
   "include": [
     "src",
-    "./typings-custom/**/*.ts"
+    "./src/declarations.d.ts"
   ],
   "exclude": [
     "node_modules",
