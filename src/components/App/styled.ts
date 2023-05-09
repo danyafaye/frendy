@@ -11,6 +11,7 @@ export const GlobalStyles = createGlobalStyle`
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    font-family: Inter;
   }
   :focus, :active {
     outline: none;
@@ -66,8 +67,13 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 
+export const App = styled.div`
+  flex: 1 0 auto;
+`;
+
 export const AppWrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+  display: flex;
+  background-color: #f8f8f8;
+  flex-direction: column;
+  min-height: 100%;
 `;
