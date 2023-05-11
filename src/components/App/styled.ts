@@ -69,6 +69,7 @@ export const GlobalStyles = createGlobalStyle`
 
 export const App = styled.div`
   flex: 1 0 auto;
+  margin-top: 68px;
 `;
 
 export const AppWrapper = styled.div`
