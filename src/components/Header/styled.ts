@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const HeaderWrapper = styled.header`
   width:100%;
-  position:sticky;
+  position:fixed;
+  background-color: #f8f8f8;
   height: 68px;
   padding: 14px;
   display: flex;
