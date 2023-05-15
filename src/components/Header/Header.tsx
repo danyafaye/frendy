@@ -11,10 +11,6 @@ const Header: FC = () => {
     //TODO: async await function или rtk query mutation hook сюда всуну но скорее второе а может пойду через контекст
   };
 
-  const registerHandler = () => {
-    //TODO: async await function или rtk query mutation hook сюда всуну но скорее второе а может пойду через контекст
-  };
-
   return (
     <ST.HeaderWrapper>
       <ST.Logo
@@ -25,10 +21,6 @@ const Header: FC = () => {
         <Button
           text="войти"
           onClick={loginHandler}
-        />
-        <Button
-          text="регистрация"
-          onClick={registerHandler}
         />
       </ST.HeaderButtons>
     </ST.HeaderWrapper>
