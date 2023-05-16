@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { Footer } from '@components/Footer';
+
 import Schoolboy3D from '@assets/welcomePage/Saly-14.png';
 import Globe3D from '@assets/welcomePage/shar4.png';
 import Gamer3D from '@assets/welcomePage/gamer3d.png';
@@ -50,6 +52,7 @@ const Welcome: FC = () => {
           alt="gamer3dmodel"
         />
       </ST.BottomFrame>
+      <Footer />
     </ST.WelcomePageWrapper>
   );
 };
