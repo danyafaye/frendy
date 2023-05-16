@@ -1,33 +1,32 @@
-import styled, {css} from "styled-components";
+import styled, { css } from 'styled-components';
 
-import {ButtonProps} from "@components/Button/Button";
+import { COLORS } from '@src/constants/styles';
 
+import { ButtonProps } from '@components/Button/Button';
 
 export const Button = styled.button<Partial<ButtonProps>>`
-  background:none;
+  background: none;
   ${(props) => {
     switch (props.size) {
-      case "lg":
+      case 'lg':
         return css`
           font-size: 30px;
           font-weight: 300;
-          color: #222222;
-          transition: all .3s ease-in-out;
-          &:hover{
-            color: #82616C;
+          color: ${COLORS.$gray90};
+          transition: all 0.3s ease-in-out;
+          &:hover {
+            color: ${COLORS.$purple50};
           }
         `;
-      case "sm":
-        return css`
-        `;
-      case "md":
-        return css`
-        `;
+      case 'sm':
+        return css``;
+      case 'md':
+        return css``;
       default:
         return css`
-          background-color: white;
-          color: black;
+          background-color: ${COLORS.$white100};
+          color: ${COLORS.$black100};
         `;
     }
   }}
-`
+`;

@@ -1,5 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 export const GlobalStyles = createGlobalStyle`
   * {
     padding: 0;
@@ -74,7 +76,7 @@ export const App = styled.div`
 
 export const AppWrapper = styled.div`
   display: flex;
-  background-color: #f8f8f8;
+  background-color: ${COLORS.$white20};
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
 `;

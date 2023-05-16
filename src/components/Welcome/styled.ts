@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 export const WelcomePageWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,12 +19,12 @@ export const UpperFrame = styled.div`
     &-title {
       font-weight: 600;
       font-size: 64px;
-      color: #82616c;
+      color: ${COLORS.$purple50};
     }
     &-description {
       font-weight: 300;
       font-size: 32px;
-      color: #222222;
+      color: ${COLORS.$gray90};
     }
   }
 `;
@@ -77,14 +79,14 @@ export const BottomFrame = styled.div`
     &-title {
       font-weight: 700;
       font-size: 96px;
-      color: #82616c;
+      color: ${COLORS.$purple50};
     }
     &-description {
       font-weight: 400;
       font-size: 32px;
       line-height: 39px;
 
-      color: #222222;
+      color: ${COLORS.$gray90};
     }
   }
 `;

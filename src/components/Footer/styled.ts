@@ -2,12 +2,14 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 import { ReactComponent as DiscordIcon } from '../../assets/icons/discord.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/telegram.svg';
 
 export const FooterWrapper = styled.footer`
-  background-color: #82616c;
-  color: #fff;
+  background-color: ${COLORS.$purple50};
+  color: ${COLORS.$white100};
   padding: 14px;
   row-gap: 24px;
   display: flex;
