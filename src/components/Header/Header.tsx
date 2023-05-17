@@ -1,4 +1,7 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { LINKS } from '@src/links';
 
 import { Button } from '@components/Button';
 
@@ -7,8 +10,9 @@ import FrendyLogo from '@assets/icons/frendy-logo.png';
 import * as ST from './styled';
 
 const Header: FC = () => {
+  const navigate = useNavigate();
   const loginHandler = () => {
-    //TODO: async await function или rtk query mutation hook сюда всуну но скорее второе а может пойду через контекст
+    navigate(LINKS.auth);
   };
 
   return (

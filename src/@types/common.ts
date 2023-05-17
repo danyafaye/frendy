@@ -1,3 +1,5 @@
-type ButtonSize = 'lg' | 'md' | 'sm';
+type Size = 'lg' | 'md' | 'sm';
 
-export type {ButtonSize};
+type Decoration = 'filled' | 'underlined' | 'default';
+
+export type { Size, Decoration };
