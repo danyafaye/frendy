@@ -27,6 +27,7 @@ export const GlobalStyles = createGlobalStyle`
   html, body, #root {
     height: 100%;
     width: 100%;
+    background-color: ${COLORS.$white20};
   }
   
   .modal_footer {

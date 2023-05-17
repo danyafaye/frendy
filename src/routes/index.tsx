@@ -16,7 +16,7 @@ const ROUTES: RouteObject[] = [
     element: <Navigate to="/" />,
   },
   {
-    path: LINKS.profile,
+    path: LINKS.main,
     element: <ProfilePage />,
   },
 ];
