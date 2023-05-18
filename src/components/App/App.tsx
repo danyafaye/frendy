@@ -9,6 +9,7 @@ import * as ST from './styled';
 
 const App: FC = () => {
   const routes = useRoutes(ROUTES);
+
   return (
     <>
       <ST.AppWrapper>

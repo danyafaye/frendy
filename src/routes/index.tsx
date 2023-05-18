@@ -1,19 +1,24 @@
-import {Navigate, RouteObject} from "react-router-dom";
-import {lazy} from "react";
+import { Navigate, RouteObject } from 'react-router-dom';
+import { lazy } from 'react';
 
-import {LINKS} from "@src/links";
+import { LINKS } from '@src/links';
 
-const WelcomePage = lazy(()=>import('@src/pages/WelcomePage'))
+const WelcomePage = lazy(() => import('@src/pages/WelcomePage'));
+const AuthPage = lazy(() => import('@src/pages/AuthPage'));
 
 const ROUTES: RouteObject[] = [
   {
     path: LINKS.home,
-    element: (<WelcomePage/>)
+    element: <WelcomePage />,
   },
   {
     path: '*',
     element: <Navigate to="/" />,
   },
-]
+  {
+    path: LINKS.auth,
+    element: <AuthPage />,
+  },
+];
 
-export {ROUTES}
+export { ROUTES };
