@@ -3,8 +3,9 @@ import { lazy } from 'react';
 
 import { LINKS } from '@src/links';
 
-const WelcomePage = lazy(() => import('@src/pages/WelcomePage'));
 const ProfilePage = lazy(() => import('@src/pages/ProfilePage'));
+const WelcomePage = lazy(() => import('@src/pages/WelcomePage'));
+const AuthPage = lazy(() => import('@src/pages/AuthPage'));
 
 const ROUTES: RouteObject[] = [
   {
@@ -19,6 +20,10 @@ const ROUTES: RouteObject[] = [
     path: LINKS.main,
     element: <ProfilePage />,
   },
+  {
+    path: LINKS.auth,
+    element: <AuthPage />,
+  },
 ];
 
-export { ROUTES };
+export {ROUTES}

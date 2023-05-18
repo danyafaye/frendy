@@ -17,7 +17,7 @@ const Header: FC = () => {
   };
 
   const loginHandler = () => {
-    //TODO: async await function или rtk query mutation hook сюда всуну но скорее второе а может пойду через контекст
+    navigate(LINKS.auth);
   };
 
   return (

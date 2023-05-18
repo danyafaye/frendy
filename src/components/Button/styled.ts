@@ -11,12 +11,6 @@ export const Button = styled.button<Partial<ButtonProps>>`
       case 'lg':
         return css`
           font-size: 30px;
-          font-weight: 300;
-          color: ${COLORS.$gray90};
-          transition: all 0.3s ease-in-out;
-          &:hover {
-            color: ${COLORS.$purple50};
-          }
         `;
       case 'sm':
         return css``;
@@ -24,9 +18,46 @@ export const Button = styled.button<Partial<ButtonProps>>`
         return css``;
       default:
         return css`
-          background-color: ${COLORS.$white100};
-          color: ${COLORS.$black100};
+          background-color: white;
+          color: black;
         `;
     }
   }}
-`;
+  ${(props) => {
+    switch (props.decoration) {
+      case 'default':
+        return css`
+          color: #222222;
+          transition: all 0.3s ease-in-out;
+          font-weight: 300;
+          &:hover {
+            color: #82616c;
+          }
+        `;
+      case 'filled':
+        return css`
+          color: white;
+          background-color: #82616c;
+          border-radius: 10px;
+          padding: 12px;
+          font-weight: 300;
+        `;
+      case 'underlined':
+        return css`
+          color: #82616c;
+          text-decoration-line: underline;
+          font-size: 24px;
+          font-weight: 300;
+        `;
+      default:
+        return css`
+          color: #222222;
+          transition: all 0.3s ease-in-out;
+          font-weight: 300;
+          &:hover {
+            color: #82616c;
+          }
+        `;
+    }
+  }}
+`
