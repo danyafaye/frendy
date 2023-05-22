@@ -1,7 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-import { COLORS } from '@src/constants/styles';
-
 export const GlobalStyles = createGlobalStyle`
   * {
     padding: 0;
@@ -27,7 +25,6 @@ export const GlobalStyles = createGlobalStyle`
   html, body, #root {
     height: 100%;
     width: 100%;
-    background-color: ${COLORS.$white20};
   }
   
   .modal_footer {
@@ -77,7 +74,6 @@ export const App = styled.div`
 
 export const AppWrapper = styled.div`
   display: flex;
-  background-color: ${COLORS.$white20};
   flex-direction: column;
   height: 100%;
 `;

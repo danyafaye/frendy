@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 import { InputProps } from '@components/Input/Input';
 
 export const Input = styled.input<Partial<InputProps>>`
@@ -13,12 +15,8 @@ export const Input = styled.input<Partial<InputProps>>`
           height: 55px;
           font-size: 24px;
           font-weight: 300;
-          color: #82616c;
-          transition: all 0.3s ease-in-out;
+          color: ${COLORS.$purple50};
           padding: 5px 10px;
-          &:hover {
-            color: #82616c;
-          }
           &::placeholder {
             opacity: 0.35;
           }
@@ -29,8 +27,8 @@ export const Input = styled.input<Partial<InputProps>>`
         return css``;
       default:
         return css`
-          background-color: white;
-          color: black;
+          background-color: ${COLORS.$white100};
+          color: ${COLORS.$black100};
         `;
     }
   }};
@@ -39,7 +37,7 @@ export const Input = styled.input<Partial<InputProps>>`
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
-  color: #82616c;
+  color: ${COLORS.$purple50};
   font-size: 24px;
   gap: 5px;
 `;

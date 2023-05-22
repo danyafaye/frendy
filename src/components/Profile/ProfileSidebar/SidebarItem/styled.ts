@@ -1,19 +1,34 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { COLORS } from '@src/constants/styles';
 
-export const SidebarItemWrapper = styled.div`
+type WrapperProps = {
+  isActive: boolean;
+};
+
+export const SidebarItemWrapper = styled.div<WrapperProps>`
   display: flex;
-  padding: 10px;
+  padding: 16px;
   align-items: center;
-  justify-content: center;
-  column-gap: 5px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  justify-content: flex-start;
+  column-gap: 10px;
+  font-size: 18px;
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
   color: ${COLORS.$gray90};
   cursor: pointer;
   &:hover {
-    background-color: ${COLORS.$purple50};
+    background-color: rgba(130, 97, 108, 0.1);
   }
+  ${(props) => {
+    if (props.isActive) {
+      return css`
+        background-color: rgba(130, 97, 108, 0.4);
+        font-weight: 500;
+        &:hover {
+          background-color: rgba(130, 97, 108, 0.4);
+        }
+      `;
+    }
+  }}
 `;

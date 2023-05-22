@@ -14,6 +14,8 @@ const ProfileSidebar: FC = () => {
             key={tab.link}
             text={tab.text}
             icon={tab.icon}
+            link={tab.link}
+            style={tab.style}
           />
         );
       })}

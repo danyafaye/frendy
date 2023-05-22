@@ -1,4 +1,12 @@
-export type LinkTypes = 'home' | 'aboutUs' | 'rules' | 'auth' | 'main';
+export type LinkTypes =
+  | 'home'
+  | 'aboutUs'
+  | 'rules'
+  | 'auth'
+  | 'main'
+  | 'dialogs'
+  | 'settings'
+  | 'profile';
 
 export const LINKS: Record<LinkTypes, string> = {
   home: '/',
@@ -6,4 +14,7 @@ export const LINKS: Record<LinkTypes, string> = {
   rules: '/rules',
   auth: '/auth',
   main: '/main',
+  profile: '/main/profile',
+  dialogs: '/main/dialogs',
+  settings: '/main/settings',
 };

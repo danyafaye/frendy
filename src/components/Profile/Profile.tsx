@@ -1,7 +1,7 @@
 import { FC } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { ProfileSidebar } from '@components/Profile/ProfileSidebar';
-import { ProfileContent } from '@components/Profile/ProfileContent';
 
 import * as ST from './styled';
 
@@ -9,7 +9,9 @@ const Profile: FC = () => {
   return (
     <ST.ProfileWrapper>
       <ProfileSidebar />
-      <ProfileContent />
+      <ST.ProfileContentWrapper>
+        <Outlet />
+      </ST.ProfileContentWrapper>
     </ST.ProfileWrapper>
   );
 };

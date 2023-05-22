@@ -5,11 +5,12 @@ import { COLORS } from '@src/constants/styles';
 export const HeaderWrapper = styled.header`
   width: 100%;
   position: fixed;
-  background-color: ${COLORS.$white20};
+  background-color: ${COLORS.$white100};
   height: 68px;
   padding: 14px;
   display: flex;
   justify-content: space-between;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
 `;
 
 export const Logo = styled.img`
