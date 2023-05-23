@@ -69,14 +69,11 @@ export const GlobalStyles = createGlobalStyle`
 
 export const App = styled.div`
   flex: 1 0 auto;
-  height: 100%;
   margin-top: 68px;
 `;
 
 export const AppWrapper = styled.div`
   display: flex;
-  background-color: #f8f8f8;
   flex-direction: column;
-  min-height: 100%;
   height: 100%;
 `;

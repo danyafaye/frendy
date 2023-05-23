@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 import { ButtonProps } from '@components/Button/Button';
 
 export const Button = styled.button<Partial<ButtonProps>>`
@@ -16,8 +18,8 @@ export const Button = styled.button<Partial<ButtonProps>>`
         return css``;
       default:
         return css`
-          background-color: white;
-          color: black;
+          background-color: ${COLORS.$white100};
+          color: ${COLORS.$black100};
         `;
     }
   }}
@@ -25,35 +27,35 @@ export const Button = styled.button<Partial<ButtonProps>>`
     switch (props.decoration) {
       case 'default':
         return css`
-          color: #222222;
+          color: ${COLORS.$gray90};
           transition: all 0.3s ease-in-out;
           font-weight: 300;
           &:hover {
-            color: #82616c;
+            color: ${COLORS.$purple50};
           }
         `;
       case 'filled':
         return css`
           color: white;
-          background-color: #82616c;
+          background-color: ${COLORS.$purple50};
           border-radius: 10px;
           padding: 12px;
           font-weight: 300;
         `;
       case 'underlined':
         return css`
-          color: #82616c;
+          color: ${COLORS.$purple50};
           text-decoration-line: underline;
           font-size: 24px;
           font-weight: 300;
         `;
       default:
         return css`
-          color: #222222;
+          color: ${COLORS.$gray90};
           transition: all 0.3s ease-in-out;
           font-weight: 300;
           &:hover {
-            color: #82616c;
+            color: ${COLORS.$purple50};
           }
         `;
     }

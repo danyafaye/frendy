@@ -11,6 +11,11 @@ import * as ST from './styled';
 
 const Header: FC = () => {
   const navigate = useNavigate();
+
+  const navigateToHome = () => {
+    navigate(LINKS.home);
+  };
+
   const loginHandler = () => {
     navigate(LINKS.auth);
   };
@@ -20,6 +25,7 @@ const Header: FC = () => {
       <ST.Logo
         src={FrendyLogo}
         alt="Frendy Логотип"
+        onClick={navigateToHome}
       />
       <ST.HeaderButtons>
         <Button
