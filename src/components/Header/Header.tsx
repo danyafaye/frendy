@@ -2,15 +2,18 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LINKS } from '@src/links';
+import { useAuth } from '@src/providers/AuthProvider';
 
 import { Button } from '@components/Button';
 
 import FrendyLogo from '@assets/icons/frendy-logo.png';
+import { ReactComponent as ProfileIcon } from '@assets/icons/profile_header_icon.svg';
 
 import * as ST from './styled';
 
 const Header: FC = () => {
   const navigate = useNavigate();
+  const { isAuth, userInfo } = useAuth();
 
   const navigateToHome = () => {
     navigate(LINKS.home);
@@ -18,6 +21,10 @@ const Header: FC = () => {
 
   const loginHandler = () => {
     navigate(LINKS.auth);
+  };
+
+  const profileHandler = () => {
+    navigate(LINKS.profile);
   };
 
   return (
@@ -28,10 +35,17 @@ const Header: FC = () => {
         onClick={navigateToHome}
       />
       <ST.HeaderButtons>
-        <Button
-          text="войти"
-          onClick={loginHandler}
-        />
+        {isAuth ? (
+          <ST.HeaderIconWrapper onClick={profileHandler}>
+            {userInfo.firstName}
+            <ProfileIcon width="32px" />
+          </ST.HeaderIconWrapper>
+        ) : (
+          <Button
+            text="войти"
+            onClick={loginHandler}
+          />
+        )}
       </ST.HeaderButtons>
     </ST.HeaderWrapper>
   );

@@ -11,6 +11,7 @@ export const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  z-index: 3;
 `;
 
 export const Logo = styled.img`
@@ -22,4 +23,13 @@ export const Logo = styled.img`
 export const HeaderButtons = styled.div`
   display: flex;
   column-gap: 16px;
+`;
+
+export const HeaderIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  font-weight: 300;
+  column-gap: 6px;
 `;

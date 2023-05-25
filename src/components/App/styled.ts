@@ -27,19 +27,9 @@ export const GlobalStyles = createGlobalStyle`
     width: 100%;
   }
   
-  .modal_footer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 4rem;
-  }
-  
   #root {
     position: relative;
     z-index: 1;
-  }
-  #toast-root {
-    position: relative;
-    z-index: 2;
   }
   input::-ms-clear {
     display: none;
@@ -59,11 +49,6 @@ export const GlobalStyles = createGlobalStyle`
   }
   a:hover {
     text-decoration: none;
-  }
-  
-  .app-toast {
-    position: fixed;
-    z-index: 999999 !important;
   }
 `;
 

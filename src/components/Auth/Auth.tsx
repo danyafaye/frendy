@@ -2,6 +2,8 @@ import { FC, useState } from 'react';
 
 import { useFormik } from 'formik';
 
+import { useAuth } from '@src/providers/AuthProvider';
+
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
@@ -9,47 +11,62 @@ import * as ST from './styled';
 
 const Auth: FC = () => {
   const [isRegistration, setIsRegistration] = useState(false);
-  const [type, setType] = useState('password');
-  const togglePassInput = () => {
-    if (type === 'password') {
-      setType('text');
-    } else {
-      setType('password');
-    }
+  const [isPassword, setIsPassword] = useState(true);
+  const { login, registration } = useAuth();
+
+  const toggleRegistration = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsRegistration(!isRegistration);
   };
 
-  const formik = useFormik({
+  const registrationForm = useFormik({
     initialValues: {
-      firstname: '',
-      lastname: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      registration(values.email, values.firstName, values.lastName, values.password);
+    },
+  });
+
+  const loginForm = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: (values) => {
+      login(values.email, values.password);
     },
   });
 
   return (
     <ST.AuthPageWrapper>
-      {isRegistration === false ? (
-        <ST.AuthForm onSubmit={formik.handleSubmit}>
+      {!isRegistration ? (
+        <ST.AuthForm onSubmit={loginForm.handleSubmit}>
           <ST.ControlWrapper>
             <Input
               inputLabel="электронная почта"
               placeholder="example@gmail.com"
+              id="email"
+              onChange={loginForm.handleChange}
+              value={loginForm.values.email}
             />
             <Input
               inputLabel="пароль"
               placeholder="********"
-              type={type}
+              type={isPassword ? 'password' : 'text'}
               icon={
-                type === 'password' ? (
-                  <ST.EyeIconStyled onClick={togglePassInput} />
+                isPassword ? (
+                  <ST.EyeIconStyled onClick={() => setIsPassword(false)} />
                 ) : (
-                  <ST.EyeCloseIconStyled onClick={togglePassInput} />
+                  <ST.EyeCloseIconStyled onClick={() => setIsPassword(true)} />
                 )
               }
+              id="password"
+              onChange={loginForm.handleChange}
+              value={loginForm.values.password}
             />
           </ST.ControlWrapper>
           <ST.ControlWrapper>
@@ -59,38 +76,51 @@ const Auth: FC = () => {
               decoration="filled"
             />
             <Button
-              onClick={() => setIsRegistration(true)}
+              onClick={toggleRegistration}
               text="ещё не зарегистрированы?"
               decoration="underlined"
+              type="button"
             />
           </ST.ControlWrapper>
         </ST.AuthForm>
       ) : (
-        <ST.AuthForm onSubmit={formik.handleSubmit}>
+        <ST.AuthForm onSubmit={registrationForm.handleSubmit}>
           <ST.ControlWrapper>
             <Input
               inputLabel="имя"
               placeholder="Александр"
+              id="firstName"
+              onChange={registrationForm.handleChange}
+              value={registrationForm.values.firstName}
             />
             <Input
               inputLabel="фамилия"
               placeholder="Александров"
+              id="lastName"
+              onChange={registrationForm.handleChange}
+              value={registrationForm.values.lastName}
             />
             <Input
               inputLabel="электронная почта"
               placeholder="example@gmail.com"
+              id="email"
+              onChange={registrationForm.handleChange}
+              value={registrationForm.values.email}
             />
             <Input
               inputLabel="пароль"
               placeholder="********"
-              type={type}
+              id="password"
+              type={isPassword ? 'password' : 'text'}
               icon={
-                type === 'password' ? (
-                  <ST.EyeIconStyled onClick={togglePassInput} />
+                isPassword ? (
+                  <ST.EyeIconStyled onClick={() => setIsPassword(false)} />
                 ) : (
-                  <ST.EyeCloseIconStyled onClick={togglePassInput} />
+                  <ST.EyeCloseIconStyled onClick={() => setIsPassword(true)} />
                 )
               }
+              onChange={registrationForm.handleChange}
+              value={registrationForm.values.password}
             />
           </ST.ControlWrapper>
           <ST.ControlWrapper>
@@ -100,9 +130,10 @@ const Auth: FC = () => {
               decoration="filled"
             />
             <Button
-              onClick={() => setIsRegistration(false)}
+              onClick={toggleRegistration}
               text="вернуться ко входу"
               decoration="underlined"
+              type="button"
             />
           </ST.ControlWrapper>
         </ST.AuthForm>
