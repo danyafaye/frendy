@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
 import { ReactComponent as EyeIcon } from '@assets/icons/eye.svg';
 import { ReactComponent as EyeCloseIcon } from '@assets/icons/eyeClose.svg';
-export const AuthPageWrapper = styled.div`
+export const AuthPageWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +14,7 @@ export const AuthPageWrapper = styled.div`
   background-color: #f6f8f9;
 `;
 
-export const AuthForm = styled.form`
+export const AuthForm = styled(motion.form)`
   display: flex;
   flex-direction: column;
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.05);

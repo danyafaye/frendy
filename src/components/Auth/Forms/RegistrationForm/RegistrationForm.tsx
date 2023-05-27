@@ -7,6 +7,8 @@ import { useAuth } from '@src/providers/AuthProvider';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
+import { handleFormError } from '@utils/handleFormError';
+
 import * as ST from '../../styled';
 
 type RegistrationFormType = {
@@ -24,38 +26,48 @@ const RegistrationForm: FC<RegistrationFormType> = ({ toggleRegistration }) => {
       email: '',
       password: '',
     },
-    onSubmit: (values) => {
-      registration(values.email, values.firstName, values.lastName, values.password);
+    onSubmit: async (values) => {
+      try {
+        await registration(values.email, values.firstName, values.lastName, values.password);
+      } catch (e) {
+        handleFormError(e, registrationForm);
+      }
     },
   });
   return (
-    <ST.AuthForm onSubmit={registrationForm.handleSubmit}>
+    <ST.AuthForm
+      variants={{
+        hidden: { opacity: 0, y: -20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+      }}
+      onSubmit={registrationForm.handleSubmit}
+    >
       <ST.ControlWrapper>
         <Input
           inputLabel="имя"
           placeholder="Александр"
-          id="firstName"
+          name="firstName"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.firstName}
         />
         <Input
           inputLabel="фамилия"
           placeholder="Александров"
-          id="lastName"
+          name="lastName"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.lastName}
         />
         <Input
           inputLabel="электронная почта"
           placeholder="example@gmail.com"
-          id="email"
+          name="email"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.email}
         />
         <Input
           inputLabel="пароль"
           placeholder="********"
-          id="password"
+          name="password"
           type={isPassword ? 'password' : 'text'}
           icon={
             isPassword ? (

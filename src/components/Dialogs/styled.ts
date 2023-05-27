@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
-export const DialogsWrapper = styled.div`
+export const DialogsWrapper = styled(motion.div)`
   background-color: ${COLORS.$white100};
   border-radius: 10px;
   display: flex;

@@ -20,7 +20,15 @@ const Settings: FC = () => {
   };
 
   return (
-    <ST.SettingsWrapper>
+    <ST.SettingsWrapper
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, transition: { duration: 1 } }}
+      variants={{
+        hidden: { opacity: 0, x: +20 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
+      }}
+    >
       <ST.SettingsTitle>Информация о пользователе</ST.SettingsTitle>
       <ST.SettingsBlockWrapper>
         <ST.SettingsBlock>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
@@ -6,13 +7,13 @@ import { ReactComponent as EditIcon } from '@assets/icons/edit_icon.svg';
 import { ReactComponent as LikeIcon } from '@assets/icons/like_icon.svg';
 import { ReactComponent as CommentIcon } from '@assets/icons/comment_icon.svg';
 
-export const ProfileWrapper = styled.div`
+export const ProfileWrapper = styled(motion.div)`
   display: flex;
   height: 100%;
   background-color: #f6f8f9;
 `;
 
-export const ProfileBlock = styled.div`
+export const ProfileBlock = styled(motion.div)`
   display: flex;
   flex-direction: column;
 `;
@@ -45,7 +46,7 @@ export const ProfileContentBlock = styled(ProfileBlock)`
   column-gap: 40px;
 `;
 
-export const ProfileContent = styled.div`
+export const ProfileContent = styled(motion.div)`
   background-color: ${COLORS.$white100};
   border-radius: 10px;
   padding: 24px;
@@ -105,7 +106,6 @@ export const PostsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
   row-gap: 20px;
@@ -211,4 +211,16 @@ export const LikeStyled = styled(LikeIcon)`
 export const CommentStyled = styled(CommentIcon)`
   width: 24px;
   height: 24px;
+`;
+
+export const PostsTextArea = styled.textarea`
+  resize: none;
+`;
+
+export const CreatePostForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d5dadd;
+  border-radius: 8px;
+  padding: 10px;
 `;

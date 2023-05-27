@@ -23,11 +23,15 @@ const ChangePassForm: FC = () => {
       oldPassword: '',
       newPassword: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
         const { oldPassword, newPassword } = values;
-        changePassword({ password: oldPassword, newPassword: newPassword });
-        toast.success({ text: 'Пароль успешно изменен!' });
+        const res = await changePassword({ password: oldPassword, newPassword: newPassword });
+        if ('error' in res) {
+          toast.error(res.error);
+        } else {
+          toast.success({ text: 'Пароль успешно изменен!' });
+        }
       } catch (e) {
         throw e;
       }

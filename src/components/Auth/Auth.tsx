@@ -7,18 +7,17 @@ import * as ST from './styled';
 
 const Auth: FC = () => {
   const [isRegistration, setIsRegistration] = useState(false);
-
-  const toggleRegistration = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsRegistration(!isRegistration);
-  };
-
   return (
-    <ST.AuthPageWrapper>
+    <ST.AuthPageWrapper
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, transition: { duration: 1 } }}
+      variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+    >
       {!isRegistration ? (
-        <LoginForm toggleRegistration={toggleRegistration} />
+        <LoginForm toggleRegistration={() => setIsRegistration(!isRegistration)} />
       ) : (
-        <RegistrationForm toggleRegistration={toggleRegistration} />
+        <RegistrationForm toggleRegistration={() => setIsRegistration(!isRegistration)} />
       )}
     </ST.AuthPageWrapper>
   );

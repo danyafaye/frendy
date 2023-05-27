@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
 import { ReactComponent as EyeIcon } from '@assets/icons/eye.svg';
 import { ReactComponent as EyeCloseIcon } from '@assets/icons/eyeClose.svg';
 
-export const SettingsWrapper = styled.div`
+export const SettingsWrapper = styled(motion.div)`
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.05);
   background-color: ${COLORS.$white100};
   height: 100%;
