@@ -24,6 +24,8 @@ const Button: FC<ButtonProps> = ({
       onClick={onClick}
       size={size}
       decoration={decoration}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 10 }}
     >
       {text}
       {children}

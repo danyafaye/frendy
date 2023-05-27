@@ -5,17 +5,16 @@ import { COLORS } from '@src/constants/styles';
 import { InputProps } from '@components/Input/Input';
 
 export const Input = styled.input<Partial<InputProps>>`
-  border: 1px solid #82616c;
-  border-radius: 10px;
+  border-bottom: 1px solid #82616c;
   ${(props) => {
     switch (props.inputSize) {
       case 'lg':
         return css`
-          width: 590px;
+          width: 100%;
           height: 55px;
           font-size: 24px;
           font-weight: 300;
-          color: ${COLORS.$purple50};
+          color: ${COLORS.$gray90};
           padding: 5px 10px;
           &::placeholder {
             opacity: 0.35;

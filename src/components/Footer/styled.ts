@@ -34,9 +34,9 @@ export const Links = styled.div`
 `;
 
 export const StyledLink = styled(Link)`
-  color: inherit;
   text-decoration: none;
   font-size: 22px;
+  color: ${COLORS.$white100};
   font-weight: 300;
 `;
 

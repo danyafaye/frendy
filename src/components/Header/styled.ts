@@ -32,4 +32,11 @@ export const HeaderIconWrapper = styled.div`
   cursor: pointer;
   font-weight: 300;
   column-gap: 6px;
+  color: ${COLORS.$gray90};
+`;
+
+export const HeaderAvatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
 `;

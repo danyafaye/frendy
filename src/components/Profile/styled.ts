@@ -2,9 +2,14 @@ import styled from 'styled-components';
 
 import { COLORS } from '@src/constants/styles';
 
+import { ReactComponent as EditIcon } from '@assets/icons/edit_icon.svg';
+import { ReactComponent as LikeIcon } from '@assets/icons/like_icon.svg';
+import { ReactComponent as CommentIcon } from '@assets/icons/comment_icon.svg';
+
 export const ProfileWrapper = styled.div`
   display: flex;
   height: 100%;
+  background-color: #f6f8f9;
 `;
 
 export const ProfileBlock = styled.div`
@@ -14,7 +19,6 @@ export const ProfileBlock = styled.div`
 
 export const ProfileContentWrapper = styled.div`
   flex-basis: 85%;
-  background-color: ${COLORS.$white20};
   padding: 20px;
 `;
 
@@ -24,6 +28,187 @@ export const ProfileSidebarBlock = styled(ProfileBlock)`
   padding: 24px;
   position: sticky;
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.05);
+  background-color: ${COLORS.$white100};
+  margin: 20px;
 `;
 
-export const ProfileContentBlock = styled(ProfileBlock)``;
+export const ProfileTitle = styled.div`
+  font-size: 24px;
+`;
+
+export const ProfileContentBlock = styled(ProfileBlock)`
+  display: flex;
+  flex-direction: row;
+  row-gap: 10px;
+  height: 100%;
+  align-items: flex-start;
+  column-gap: 40px;
+`;
+
+export const ProfileContent = styled.div`
+  background-color: ${COLORS.$white100};
+  border-radius: 10px;
+  padding: 24px;
+  display: flex;
+  column-gap: 10px;
+`;
+
+export const ProfileContentAvatar = styled.div`
+  width: 272px;
+  height: 272px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+export const ProfileContentInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+`;
+
+export const AvatarStyled = styled.img`
+  width: 100%;
+  background: rgba(255, 206, 112, 0.5);
+  border-radius: 10px;
+  object-fit: cover;
+`;
+
+export const ProfileUserName = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  word-break: normal;
+  color: ${COLORS.$gray90};
+  align-items: center;
+  display: flex;
+  justify-content: center;
+`;
+
+export const ProfileContentLeft = styled(ProfileContent)`
+  height: 100%;
+  flex-basis: 80%;
+`;
+
+export const ProfileContentRight = styled(ProfileContent)`
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+`;
+
+export const ProfileUserNameWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const PostsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  align-content: stretch;
+  row-gap: 20px;
+  column-gap: 27px;
+  width: 100%;
+`;
+
+export const Post = styled.div`
+  border: 1px solid #d5dadd;
+  border-radius: 8px;
+  padding: 28px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: border 0.3s ease-in-out;
+  font-size: 18px;
+  row-gap: 24px;
+  &:hover {
+    border: 1px solid ${COLORS.$purple50};
+  }
+`;
+
+export const PostHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const PostHeaderLeftContent = styled.div`
+  display: flex;
+  column-gap: 12px;
+`;
+
+export const PostHeaderAvatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+`;
+
+export const PostHeaderContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const PostHeaderUpperContent = styled.div`
+  display: flex;
+  column-gap: 6px;
+  font-size: 20px;
+`;
+
+export const PostHeaderBottomContent = styled.div`
+  display: flex;
+  column-gap: 6px;
+  font-size: 16px;
+  color: rgb(130, 130, 130);
+  font-weight: 300;
+`;
+
+export const PostContent = styled.div``;
+
+export const PostHeaderEditStyled = styled(EditIcon)`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  fill: rgb(130, 130, 130);
+  &:hover {
+    fill: ${COLORS.$purple50};
+  }
+`;
+
+export const PostFooter = styled.div`
+  display: flex;
+  column-gap: 10px;
+`;
+
+export const IconsWrapper = styled.div`
+  display: flex;
+  column-gap: 4px;
+  align-items: center;
+  justify-content: center;
+  color: rgb(255, 255, 255) !important;
+  fill: ${COLORS.$gray90};
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #d5dadd;
+  padding: 6px 12px;
+  border-radius: 32px;
+  font-size: 14px !important;
+  line-height: 14px !important;
+  &:hover {
+    background-color: #d5dadd;
+  }
+
+  cursor: pointer;
+`;
+
+export const LikeStyled = styled(LikeIcon)`
+  width: 24px;
+  height: 24px;
+`;
+
+export const CommentStyled = styled(CommentIcon)`
+  width: 24px;
+  height: 24px;
+`;
