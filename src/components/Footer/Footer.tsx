@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { LINKS } from '@src/links';
+import { COLORS } from '@src/constants/styles';
 
 import * as ST from './styled';
 
@@ -8,7 +9,9 @@ const Footer: FC = () => {
   return (
     <ST.FooterWrapper>
       <ST.DescriptionSection>
-        <div style={{ fontSize: '24px', fontWeight: 400 }}>полезные ссылки</div>
+        <div style={{ fontSize: '24px', fontWeight: 400, color: COLORS.$white100 }}>
+          полезные ссылки
+        </div>
         <hr style={{ backgroundColor: 'white', height: '1px' }} />
         <ST.Links>
           <ST.StyledLink to={LINKS.aboutUs}>о нас</ST.StyledLink>

@@ -107,25 +107,30 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const getProfile = async () => {
-    const res = await getPersonalInfo();
-    if ('data' in res) {
-      setUserInfo(res.data as UsersDTO);
-    } else {
-      console.log(res.error);
-      toast.error({ text: (res.error as unknown as ErrorType).data.message });
+    setIsLoading(true);
+    try {
+      const res = await getPersonalInfo();
+      if ('data' in res) {
+        setUserInfo(res.data as UsersDTO);
+      } else {
+        console.log(res.error);
+        toast.error({ text: (res.error as unknown as ErrorType).data.message });
+      }
+    } catch (e) {
+      throw e;
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    setIsLoading(true);
     const accessToken = localStorage.getItem(AUTH_TOKEN);
     if (accessToken) {
       setIsAuth(true);
       getProfile();
       setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [isAuth, isLoading]);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -136,6 +141,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         registration,
         logout,
         userInfo,
+        getProfile,
       }}
     >
       {children}

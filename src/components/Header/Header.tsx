@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { LINKS } from '@src/links';
 import { useAuth } from '@src/providers/AuthProvider';
@@ -7,12 +7,13 @@ import { useAuth } from '@src/providers/AuthProvider';
 import { Button } from '@components/Button';
 
 import FrendyLogo from '@assets/icons/frendy-logo.png';
-import { ReactComponent as ProfileIcon } from '@assets/icons/profile_header_icon.svg';
+import HeaderTemplate from '@assets/header_template.png';
 
 import * as ST from './styled';
 
 const Header: FC = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { isAuth, userInfo } = useAuth();
 
   const navigateToHome = () => {
@@ -38,13 +39,20 @@ const Header: FC = () => {
         {isAuth ? (
           <ST.HeaderIconWrapper onClick={profileHandler}>
             {userInfo.firstName}
-            <ProfileIcon width="32px" />
+            {userInfo.avatar ? (
+              <ST.HeaderAvatar src={userInfo.avatar} />
+            ) : (
+              <ST.HeaderAvatar src={HeaderTemplate} />
+            )}
           </ST.HeaderIconWrapper>
         ) : (
-          <Button
-            text="войти"
-            onClick={loginHandler}
-          />
+          pathname !== '/auth' && (
+            <Button
+              text="Вход"
+              onClick={loginHandler}
+              size="md"
+            />
+          )
         )}
       </ST.HeaderButtons>
     </ST.HeaderWrapper>

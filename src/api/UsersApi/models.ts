@@ -9,4 +9,24 @@ type UsersDTO = {
   avatar: string;
 };
 
-export type { UsersDTO };
+type ChangePersonalInfoRequestDTO = {
+  firstName: string;
+  lastName: string;
+};
+
+type ChangePersonalInfoDTO = {
+  message: string;
+  user: UsersDTO;
+};
+
+type ChangePasswordRequestDTO = {
+  password: string;
+  newPassword: string;
+};
+
+export type {
+  UsersDTO,
+  ChangePersonalInfoRequestDTO,
+  ChangePersonalInfoDTO,
+  ChangePasswordRequestDTO,
+};

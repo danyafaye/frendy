@@ -1,5 +1,10 @@
 import { api } from '@api/BaseApi';
-import { UsersDTO } from '@api/UsersApi/models';
+import {
+  ChangePasswordRequestDTO,
+  ChangePersonalInfoDTO,
+  ChangePersonalInfoRequestDTO,
+  UsersDTO,
+} from '@api/UsersApi/models';
 
 const UsersApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -15,9 +20,28 @@ const UsersApi = api.injectEndpoints({
         body: dto,
       }),
     }),
+    changeUserPersonalInfo: build.mutation<ChangePersonalInfoDTO, ChangePersonalInfoRequestDTO>({
+      query: (dto) => ({
+        url: '/users/change/info',
+        body: dto,
+        method: 'post',
+      }),
+    }),
+    changeUserPassword: build.mutation<void, ChangePasswordRequestDTO>({
+      query: (dto) => ({
+        url: '/users/change/password',
+        body: dto,
+        method: 'post',
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useLazyGetPersonalInfoQuery } = UsersApi;
+export const {
+  useGetUsersQuery,
+  useLazyGetPersonalInfoQuery,
+  useChangeUserPersonalInfoMutation,
+  useChangeUserPasswordMutation,
+} = UsersApi;
 
 export { UsersApi };

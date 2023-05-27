@@ -1,10 +1,14 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { COLORS } from '@src/constants/styles';
+
 export const GlobalStyles = createGlobalStyle`
   * {
     padding: 0;
     margin: 0;
     border: 0;
+    scrollbar-color: #b0babf rgba(60,70,78,.05);
+    scrollbar-width: thin;
   }
 
   *, *:before, *:after {
@@ -12,6 +16,7 @@ export const GlobalStyles = createGlobalStyle`
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: Inter;
+    color: ${COLORS.$gray90};
   }
   :focus, :active {
     outline: none;

@@ -10,16 +10,18 @@ export const AuthPageWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  background-color: #f6f8f9;
 `;
 
 export const AuthForm = styled.form`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${COLORS.$purple50};
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
+  background-color: ${COLORS.$white100};
   padding: 55px;
   gap: 96px;
+  width: 36.6%;
 `;
 
 export const ControlWrapper = styled.div`
