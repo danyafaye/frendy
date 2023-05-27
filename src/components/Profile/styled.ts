@@ -105,12 +105,13 @@ export const ProfileUserNameWrapper = styled.div`
 export const PostsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: stretch;
   align-content: stretch;
   row-gap: 20px;
   column-gap: 27px;
   width: 100%;
+  overflow-y: auto;
 `;
 
 export const Post = styled.div`

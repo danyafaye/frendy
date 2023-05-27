@@ -60,6 +60,8 @@ export const GlobalStyles = createGlobalStyle`
 export const App = styled.div`
   flex: 1 0 auto;
   margin-top: 68px;
+  height: calc(100% - 68px);
+  overflow: hidden;
 `;
 
 export const AppWrapper = styled.div`
