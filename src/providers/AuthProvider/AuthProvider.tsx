@@ -106,8 +106,6 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  console.log(userInfo);
-
   const getProfile = async () => {
     setIsLoading(true);
     try {
