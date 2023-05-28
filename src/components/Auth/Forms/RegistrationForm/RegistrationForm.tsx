@@ -10,6 +10,7 @@ import { Button } from '@components/Button';
 import { handleFormError } from '@utils/handleFormError';
 
 import * as ST from '../../styled';
+import { AUTH_SCHEMA } from '@src/constants/common';
 
 type RegistrationFormType = {
   toggleRegistration: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -26,6 +27,7 @@ const RegistrationForm: FC<RegistrationFormType> = ({ toggleRegistration }) => {
       email: '',
       password: '',
     },
+    validationSchema: AUTH_SCHEMA,
     onSubmit: async (values) => {
       try {
         await registration(values.email, values.firstName, values.lastName, values.password);
@@ -49,21 +51,33 @@ const RegistrationForm: FC<RegistrationFormType> = ({ toggleRegistration }) => {
           name="firstName"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.firstName}
+          error={Boolean(registrationForm.errors.firstName)}
         />
+        {registrationForm.errors && (
+          <div style={{ color: 'red' }}>{registrationForm.errors.firstName}</div>
+        )}
         <Input
           inputLabel="фамилия"
           placeholder="Александров"
           name="lastName"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.lastName}
+          error={Boolean(registrationForm.errors.lastName)}
         />
+        {registrationForm.errors && (
+          <div style={{ color: 'red' }}>{registrationForm.errors.lastName}</div>
+        )}
         <Input
           inputLabel="электронная почта"
           placeholder="example@gmail.com"
           name="email"
           onChange={registrationForm.handleChange}
           value={registrationForm.values.email}
+          error={Boolean(registrationForm.errors.email)}
         />
+        {registrationForm.errors && (
+          <div style={{ color: 'red' }}>{registrationForm.errors.email}</div>
+        )}
         <Input
           inputLabel="пароль"
           placeholder="********"
@@ -78,7 +92,11 @@ const RegistrationForm: FC<RegistrationFormType> = ({ toggleRegistration }) => {
           }
           onChange={registrationForm.handleChange}
           value={registrationForm.values.password}
+          error={Boolean(registrationForm.errors.password)}
         />
+        {registrationForm.errors && (
+          <div style={{ color: 'red' }}>{registrationForm.errors.password}</div>
+        )}
       </ST.ControlWrapper>
       <ST.ControlWrapper>
         <Button

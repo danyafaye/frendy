@@ -43,6 +43,11 @@ type CreateUserPostRequestDTO = {
   attached?: string;
 };
 
+type EditUserPostRequestDTO = {
+  text: string;
+  id: string;
+};
+
 export type {
   UsersDTO,
   ChangePersonalInfoRequestDTO,
@@ -51,4 +56,5 @@ export type {
   UserPostsDTO,
   UserPostsRequestDTO,
   CreateUserPostRequestDTO,
+  EditUserPostRequestDTO,
 };

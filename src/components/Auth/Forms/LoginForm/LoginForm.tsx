@@ -10,6 +10,7 @@ import { Button } from '@components/Button';
 import { handleFormError } from '@utils/handleFormError';
 
 import * as ST from '../../styled';
+import { AUTH_SCHEMA } from '@src/constants/common';
 
 type LoginFormType = {
   toggleRegistration: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -23,6 +24,7 @@ const LoginForm: FC<LoginFormType> = ({ toggleRegistration }) => {
       email: '',
       password: '',
     },
+    validationSchema: AUTH_SCHEMA,
     onSubmit: async (values) => {
       try {
         await login(values.email, values.password);
@@ -48,8 +50,9 @@ const LoginForm: FC<LoginFormType> = ({ toggleRegistration }) => {
             name="email"
             onChange={loginForm.handleChange}
             value={loginForm.values.email}
+            error={Boolean(loginForm.errors.email)}
           />
-          {loginForm.errors && loginForm.errors.email}
+          {loginForm.errors && <div style={{ color: 'red' }}>{loginForm.errors.email}</div>}
         </div>
         <div>
           <Input
@@ -66,8 +69,9 @@ const LoginForm: FC<LoginFormType> = ({ toggleRegistration }) => {
             name="password"
             onChange={loginForm.handleChange}
             value={loginForm.values.password}
+            error={Boolean(loginForm.errors.password)}
           />
-          {loginForm.errors && loginForm.errors.password}
+          {loginForm.errors && <div style={{ color: 'red' }}>{loginForm.errors.password}</div>}
         </div>
       </ST.ControlWrapper>
       <ST.ControlWrapper>

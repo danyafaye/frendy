@@ -15,6 +15,7 @@ export const SettingsWrapper = styled(motion.div)`
   row-gap: 10px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 export const SettingsBlockWrapper = styled.div`

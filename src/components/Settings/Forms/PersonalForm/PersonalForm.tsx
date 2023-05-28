@@ -49,15 +49,21 @@ const PersonalForm: FC = () => {
         name="firstName"
         onChange={personalInfoForm.handleChange}
         value={personalInfoForm.values.firstName}
+        error={Boolean(personalInfoForm.errors.firstName)}
       />
-      {personalInfoForm.errors && personalInfoForm.errors.firstName}
+      {personalInfoForm.errors && (
+        <div style={{ color: 'red' }}>{personalInfoForm.errors.firstName}</div>
+      )}
       <Input
         inputLabel="Фамилия"
         name="lastName"
         onChange={personalInfoForm.handleChange}
         value={personalInfoForm.values.lastName}
+        error={Boolean(personalInfoForm.errors.lastName)}
       />
-      {personalInfoForm.errors && personalInfoForm.errors.lastName}
+      {personalInfoForm.errors && (
+        <div style={{ color: 'red' }}>{personalInfoForm.errors.lastName}</div>
+      )}
       <Button
         type="submit"
         text="Редактировать"

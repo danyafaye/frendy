@@ -13,6 +13,7 @@ export const Input = styled.input<Partial<InputProps>>`
           font-size: 24px;
           font-weight: 300;
           color: ${COLORS.$gray90};
+          height: 55px;
           &::placeholder {
             opacity: 0.35;
           }
@@ -20,12 +21,27 @@ export const Input = styled.input<Partial<InputProps>>`
       case 'sm':
         return css``;
       case 'md':
-        return css``;
+        return css`
+          width: 100%;
+          font-size: 18px;
+          font-weight: 400;
+          color: ${COLORS.$gray90};
+          &::placeholder {
+            opacity: 0.35;
+          }
+        `;
       default:
         return css`
           background-color: ${COLORS.$white100};
           color: ${COLORS.$black100};
         `;
+    }
+  }};
+  ${(props) => {
+    if (props.error) {
+      return css`
+        border-bottom: 1px solid red !important;
+      `;
     }
   }};
   ${(props) => {
@@ -43,7 +59,6 @@ export const Input = styled.input<Partial<InputProps>>`
       case 'underlined':
         return css`
           border-bottom: 1px solid ${COLORS.$purple50};
-          height: 55px;
           padding: 5px 10px;
         `;
       default:

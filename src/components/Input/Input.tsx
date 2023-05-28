@@ -9,6 +9,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   inputLabel?: string;
   icon?: ReactNode;
   decoration?: Decoration;
+  error?: boolean;
 };
 
 const Input: FC<InputProps> = ({
@@ -16,6 +17,7 @@ const Input: FC<InputProps> = ({
   inputLabel,
   icon,
   decoration = 'underlined',
+  error = false,
   ...props
 }) => {
   return (
@@ -26,6 +28,7 @@ const Input: FC<InputProps> = ({
           <ST.Input
             inputSize={inputSize}
             decoration={decoration}
+            error={error}
             {...props}
           />
           <ST.InputRightIcon decoration={decoration}>{icon}</ST.InputRightIcon>

@@ -41,6 +41,8 @@ const Header: FC = () => {
         <ST.SearchWrapper>
           <Input
             decoration="filled"
+            inputSize="md"
+            style={{ fontSize: '24px' }}
             icon={<SearchIcon />}
           />
         </ST.SearchWrapper>

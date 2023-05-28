@@ -12,9 +12,11 @@ export const AuthPageWrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   background-color: #f6f8f9;
+  overflow-x: hidden;
 `;
 
 export const AuthForm = styled(motion.form)`
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   box-shadow: 0 7px 15px rgba(0, 0, 0, 0.05);

@@ -9,6 +9,7 @@ export const DialogsWrapper = styled(motion.div)`
   display: flex;
   column-gap: 10px;
   height: 100%;
+  overflow-y: auto;
 `;
 
 export const DialogsLeftSide = styled.div`

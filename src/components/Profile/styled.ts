@@ -6,6 +6,8 @@ import { COLORS } from '@src/constants/styles';
 import { ReactComponent as EditIcon } from '@assets/icons/edit_icon.svg';
 import { ReactComponent as LikeIcon } from '@assets/icons/like_icon.svg';
 import { ReactComponent as CommentIcon } from '@assets/icons/comment_icon.svg';
+import { ReactComponent as DeleteIcon } from '@assets/icons/delete_icon.svg';
+import { ReactComponent as ImageIcon } from '@assets/icons/image_icon.svg';
 
 export const ProfileWrapper = styled(motion.div)`
   display: flex;
@@ -179,6 +181,13 @@ export const PostHeaderEditStyled = styled(EditIcon)`
   }
 `;
 
+export const PostHeaderDeleteStyled = styled(DeleteIcon)`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  fill: red;
+`;
+
 export const PostFooter = styled.div`
   display: flex;
   column-gap: 10px;
@@ -216,6 +225,10 @@ export const CommentStyled = styled(CommentIcon)`
 
 export const PostsTextArea = styled.textarea`
   resize: none;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #d5dadd;
+  border-radius: 8px;
 `;
 
 export const CreatePostForm = styled.form`
@@ -224,4 +237,26 @@ export const CreatePostForm = styled.form`
   border: 1px solid #d5dadd;
   border-radius: 8px;
   padding: 10px;
+  row-gap: 10px;
+  background-color: #f6f8f9;
+`;
+
+export const UserPostEditWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+`;
+
+export const CreatePostControlsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ImageIconStyled = styled(ImageIcon)`
+  transition: fill 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    fill: ${COLORS.$purple50};
+  }
 `;

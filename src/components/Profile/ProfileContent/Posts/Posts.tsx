@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { CircleLoader } from 'react-spinners';
 
 import { useFormik } from 'formik';
@@ -6,11 +6,18 @@ import { QueryStatus } from '@reduxjs/toolkit/query';
 
 import { useAuth } from '@src/providers/AuthProvider';
 
-import { useCreateUserPostMutation, useLazyGetUserPostsQuery } from '@api/UsersApi/UsersApi';
+import {
+  useCreateUserPostMutation,
+  useDeleteUserPostMutation,
+  useEditUserPostMutation,
+  useLazyGetUserPostsQuery,
+} from '@api/UsersApi/UsersApi';
+import { EditUserPostRequestDTO, UserPostsDTO } from '@api/UsersApi';
 
 import { useToast } from '@hooks/useToast';
 
 import { Button } from '@components/Button';
+import { Input } from '@components/Input';
 
 import { handleFormError } from '@utils/handleFormError';
 
@@ -22,10 +29,25 @@ const Posts: FC = () => {
   const { userInfo } = useAuth();
   const toast = useToast();
 
+  const [isEditPost, setIsEditPost] = useState('');
+  const [editInputValue, setEditInputValue] = useState('');
+
   const [getUsersPost, { data: userPosts, status: userPostsIsLoading }] =
     useLazyGetUserPostsQuery();
 
   const [createUserPost] = useCreateUserPostMutation();
+  const [deleteUserPost] = useDeleteUserPostMutation();
+  const [editUserPost] = useEditUserPostMutation();
+
+  const isEditPostHandler = (post: UserPostsDTO) => {
+    if (isEditPost !== post.id) {
+      setIsEditPost(post.id);
+      setEditInputValue(post.text);
+    } else {
+      setIsEditPost('');
+      setEditInputValue('');
+    }
+  };
 
   const createPostForm = useFormik({
     initialValues: {
@@ -37,14 +59,44 @@ const Posts: FC = () => {
         if ('error' in res) {
           handleFormError(res.error, createPostForm);
         } else {
-          toast.success({ text: 'Информация успешно изменена' });
+          toast.success({ text: 'Пост опубликован!' });
           await getUsersPost({ user_id: userInfo.id });
+          createPostForm.resetForm();
         }
       } catch (e) {
         throw e;
       }
     },
   });
+
+  const deletePostHandler = async (id: string) => {
+    try {
+      const res = await deleteUserPost({ id });
+      if ('error' in res) {
+        toast.error(res.error);
+      } else {
+        toast.success({ text: 'Пост удален!' });
+        await getUsersPost({ user_id: userInfo.id });
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  const editUserPostHandler = async (request: EditUserPostRequestDTO) => {
+    try {
+      const res = await editUserPost({ id: request.id, text: request.text });
+      if ('error' in res) {
+        toast.error(res.error);
+      } else {
+        toast.success({ text: 'Пост отредактирован!' });
+        await getUsersPost({ user_id: userInfo.id });
+        setIsEditPost('');
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   useEffect(() => {
     getUsersPost({ user_id: userInfo.id });
@@ -53,7 +105,7 @@ const Posts: FC = () => {
   const renderedPosts = useMemo(() => {
     return (
       userPosts?.map((it) => {
-        const postCreated = new Date(it.createdAt).toLocaleDateString();
+        const postCreated = new Date(it.createdAt);
         const { user } = it;
         return userPostsIsLoading === QueryStatus.pending ? (
           <CircleLoader
@@ -79,32 +131,51 @@ const Posts: FC = () => {
                     <div>{user.firstName}</div>
                     <div>{user.lastName}</div>
                   </ST.PostHeaderUpperContent>
-                  <ST.PostHeaderBottomContent>{postCreated}</ST.PostHeaderBottomContent>
+                  <ST.PostHeaderBottomContent>
+                    {postCreated.toLocaleDateString()}{' '}
+                    {postCreated.toLocaleTimeString().slice(0, 5)}
+                  </ST.PostHeaderBottomContent>
                 </ST.PostHeaderContent>
               </ST.PostHeaderLeftContent>
               <div>
-                <ST.PostHeaderEditStyled />
+                <ST.PostHeaderEditStyled onClick={() => isEditPostHandler(it)} />
+                <ST.PostHeaderDeleteStyled onClick={() => deletePostHandler(it.id)} />
               </div>
             </ST.PostHeader>
             <ST.PostContent>
-              {it.text}
+              {isEditPost === it.id ? (
+                <ST.UserPostEditWrapper>
+                  <Input
+                    value={editInputValue}
+                    onChange={(e) => {
+                      setEditInputValue(e.currentTarget.value);
+                    }}
+                    inputSize="md"
+                  />
+                  <Button
+                    text="Применить"
+                    onClick={() => editUserPostHandler({ id: it.id, text: editInputValue })}
+                    size="md"
+                  />
+                </ST.UserPostEditWrapper>
+              ) : (
+                it.text
+              )}
               {it.attached}
             </ST.PostContent>
             <ST.PostFooter>
               <ST.IconsWrapper>
                 <ST.LikeStyled />
-                <div>0</div>
               </ST.IconsWrapper>
               <ST.IconsWrapper>
                 <ST.CommentStyled />
-                <div>0</div>
               </ST.IconsWrapper>
             </ST.PostFooter>
           </ST.Post>
         );
       }) || []
     );
-  }, [userPosts, userPostsIsLoading]);
+  }, [userPosts, userPostsIsLoading, isEditPost, editInputValue]);
 
   return (
     <ST.PostsWrapper>
@@ -115,11 +186,15 @@ const Posts: FC = () => {
           name="text"
           placeholder="Что у вас нового?"
         />
-        <Button
-          type="submit"
-          text="Опубликовать"
-          decoration="filled"
-        />
+        <ST.CreatePostControlsWrapper>
+          <ST.ImageIconStyled />
+          <Button
+            type="submit"
+            text="Опубликовать"
+            decoration="filled"
+            size="sm"
+          />
+        </ST.CreatePostControlsWrapper>
       </ST.CreatePostForm>
       {renderedPosts}
     </ST.PostsWrapper>
