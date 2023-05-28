@@ -36,25 +36,17 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      try {
-        setIsLoading(true);
+      const res = await loginRequest({ email, password });
 
-        const res = await loginRequest({ email, password });
-
-        if ('data' in res) {
-          localStorage.setItem(AUTH_TOKEN, res.data.accessToken);
-          localStorage.setItem(AUTH_REFRESH_TOKEN, res.data.refreshToken);
-          setIsAuth(true);
-          navigate(LINKS.profile);
-          toast.success({ text: 'Авторизация прошла успешно!' });
-        } else {
-          console.log(res.error);
-          toast.error({ text: (res.error as unknown as ErrorType).data.message });
-        }
-      } catch (e) {
-        throw e;
-      } finally {
-        setIsLoading(false);
+      if ('data' in res) {
+        localStorage.setItem(AUTH_TOKEN, res.data.accessToken);
+        localStorage.setItem(AUTH_REFRESH_TOKEN, res.data.refreshToken);
+        await getProfile();
+        setIsAuth(true);
+        navigate(LINKS.profile);
+        toast.success({ text: 'Авторизация прошла успешно!' });
+      } else {
+        throw res.error;
       }
     },
     [loginRequest],
@@ -62,30 +54,22 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const registration = useCallback(
     async (email: string, firstName: string, lastName: string, password: string) => {
-      try {
-        setIsLoading(true);
+      const res = await registerRequest({
+        email,
+        password,
+        firstName,
+        lastName,
+      });
 
-        const res = await registerRequest({
-          email,
-          password,
-          firstName,
-          lastName,
-        });
-
-        if ('data' in res) {
-          localStorage.setItem(AUTH_TOKEN, res.data.accessToken);
-          localStorage.setItem(AUTH_REFRESH_TOKEN, res.data.refreshToken);
-          setIsAuth(true);
-          navigate(LINKS.profile);
-          toast.success({ text: 'Регистрация прошла успешно!' });
-        } else {
-          console.log(res.error);
-          toast.error({ text: (res.error as unknown as ErrorType).data.message });
-        }
-      } catch (e) {
-        throw e;
-      } finally {
-        setIsLoading(false);
+      if ('data' in res) {
+        localStorage.setItem(AUTH_TOKEN, res.data.accessToken);
+        localStorage.setItem(AUTH_REFRESH_TOKEN, res.data.refreshToken);
+        await getProfile();
+        setIsAuth(true);
+        navigate(LINKS.profile);
+        toast.success({ text: 'Регистрация прошла успешно!' });
+      } else {
+        throw res.error;
       }
     },
     [registerRequest],
@@ -113,7 +97,6 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       if ('data' in res) {
         setUserInfo(res.data as UsersDTO);
       } else {
-        console.log(res.error);
         toast.error({ text: (res.error as unknown as ErrorType).data.message });
       }
     } catch (e) {
@@ -128,7 +111,6 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     if (accessToken) {
       setIsAuth(true);
       getProfile();
-      setIsLoading(false);
     }
   }, []);
 

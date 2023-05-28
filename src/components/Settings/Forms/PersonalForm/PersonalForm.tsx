@@ -11,6 +11,8 @@ import { useToast } from '@hooks/useToast';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
+import { handleFormError } from '@utils/handleFormError';
+
 import * as ST from '../../styled';
 
 const PersonalForm: FC = () => {
@@ -21,34 +23,47 @@ const PersonalForm: FC = () => {
 
   const personalInfoForm = useFormik({
     initialValues: {
-      name: userInfo.firstName,
-      surname: userInfo.lastName,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
-        const { name, surname } = values;
-        changeUserInfo({ firstName: name, lastName: surname });
-        toast.success({ text: 'Информация успешно изменена' });
-        getProfile();
+        const { firstName, lastName } = values;
+        const res = await changeUserInfo({ firstName, lastName });
+        if ('error' in res) {
+          handleFormError(res.error, personalInfoForm);
+        } else {
+          toast.success({ text: 'Информация успешно изменена' });
+          await getProfile();
+        }
       } catch (e) {
         throw e;
       }
     },
   });
+
   return (
     <ST.EditForm onSubmit={personalInfoForm.handleSubmit}>
       <Input
         inputLabel="Имя"
-        id="name"
+        name="firstName"
         onChange={personalInfoForm.handleChange}
-        value={personalInfoForm.values.name}
+        value={personalInfoForm.values.firstName}
+        error={Boolean(personalInfoForm.errors.firstName)}
       />
+      {personalInfoForm.errors && (
+        <div style={{ color: 'red' }}>{personalInfoForm.errors.firstName}</div>
+      )}
       <Input
         inputLabel="Фамилия"
-        id="surname"
+        name="lastName"
         onChange={personalInfoForm.handleChange}
-        value={personalInfoForm.values.surname}
+        value={personalInfoForm.values.lastName}
+        error={Boolean(personalInfoForm.errors.lastName)}
       />
+      {personalInfoForm.errors && (
+        <div style={{ color: 'red' }}>{personalInfoForm.errors.lastName}</div>
+      )}
       <Button
         type="submit"
         text="Редактировать"

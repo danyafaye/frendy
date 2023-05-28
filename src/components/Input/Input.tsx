@@ -1,6 +1,6 @@
 import { FC, InputHTMLAttributes, ReactNode } from 'react';
 
-import { Size } from '@src/@types/common';
+import { Decoration, Size } from '@src/@types/common';
 
 import * as ST from './styled';
 
@@ -8,9 +8,18 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   inputSize?: Size;
   inputLabel?: string;
   icon?: ReactNode;
+  decoration?: Decoration;
+  error?: boolean;
 };
 
-const Input: FC<InputProps> = ({ inputSize = 'lg', inputLabel, icon, ...props }) => {
+const Input: FC<InputProps> = ({
+  inputSize = 'lg',
+  inputLabel,
+  icon,
+  decoration = 'underlined',
+  error = false,
+  ...props
+}) => {
   return (
     <>
       <ST.Label>
@@ -18,9 +27,11 @@ const Input: FC<InputProps> = ({ inputSize = 'lg', inputLabel, icon, ...props })
         <ST.InputWrapper>
           <ST.Input
             inputSize={inputSize}
+            decoration={decoration}
+            error={error}
             {...props}
           />
-          <ST.InputRightIcon>{icon}</ST.InputRightIcon>
+          <ST.InputRightIcon decoration={decoration}>{icon}</ST.InputRightIcon>
         </ST.InputWrapper>
       </ST.Label>
     </>

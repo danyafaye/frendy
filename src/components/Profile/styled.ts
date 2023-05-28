@@ -1,18 +1,21 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
 import { ReactComponent as EditIcon } from '@assets/icons/edit_icon.svg';
 import { ReactComponent as LikeIcon } from '@assets/icons/like_icon.svg';
 import { ReactComponent as CommentIcon } from '@assets/icons/comment_icon.svg';
+import { ReactComponent as DeleteIcon } from '@assets/icons/delete_icon.svg';
+import { ReactComponent as ImageIcon } from '@assets/icons/image_icon.svg';
 
-export const ProfileWrapper = styled.div`
+export const ProfileWrapper = styled(motion.div)`
   display: flex;
   height: 100%;
   background-color: #f6f8f9;
 `;
 
-export const ProfileBlock = styled.div`
+export const ProfileBlock = styled(motion.div)`
   display: flex;
   flex-direction: column;
 `;
@@ -45,7 +48,7 @@ export const ProfileContentBlock = styled(ProfileBlock)`
   column-gap: 40px;
 `;
 
-export const ProfileContent = styled.div`
+export const ProfileContent = styled(motion.div)`
   background-color: ${COLORS.$white100};
   border-radius: 10px;
   padding: 24px;
@@ -104,13 +107,13 @@ export const ProfileUserNameWrapper = styled.div`
 export const PostsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-wrap: nowrap;
   align-items: stretch;
   align-content: stretch;
   row-gap: 20px;
   column-gap: 27px;
   width: 100%;
+  overflow-y: auto;
 `;
 
 export const Post = styled.div`
@@ -178,6 +181,13 @@ export const PostHeaderEditStyled = styled(EditIcon)`
   }
 `;
 
+export const PostHeaderDeleteStyled = styled(DeleteIcon)`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  fill: red;
+`;
+
 export const PostFooter = styled.div`
   display: flex;
   column-gap: 10px;
@@ -211,4 +221,42 @@ export const LikeStyled = styled(LikeIcon)`
 export const CommentStyled = styled(CommentIcon)`
   width: 24px;
   height: 24px;
+`;
+
+export const PostsTextArea = styled.textarea`
+  resize: none;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #d5dadd;
+  border-radius: 8px;
+`;
+
+export const CreatePostForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d5dadd;
+  border-radius: 8px;
+  padding: 10px;
+  row-gap: 10px;
+  background-color: #f6f8f9;
+`;
+
+export const UserPostEditWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 6px;
+`;
+
+export const CreatePostControlsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ImageIconStyled = styled(ImageIcon)`
+  transition: fill 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    fill: ${COLORS.$purple50};
+  }
 `;

@@ -7,7 +7,12 @@ import * as ST from '../styled';
 
 const ProfileSidebar: FC = () => {
   return (
-    <ST.ProfileSidebarBlock>
+    <ST.ProfileSidebarBlock
+      variants={{
+        hidden: { opacity: 0, x: -20 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
+      }}
+    >
       {sidebarTabs.map((tab) => {
         return (
           <SidebarItem

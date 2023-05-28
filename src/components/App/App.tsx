@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 
+import { AnimatePresence } from 'framer-motion';
+
 import { ROUTES } from '@src/routes';
 import { useAuth } from '@src/providers/AuthProvider';
 
@@ -30,11 +32,13 @@ const App: FC = () => {
 
   return (
     <>
-      <ST.AppWrapper>
-        <Header />
-        <ST.App>{routes}</ST.App>
-      </ST.AppWrapper>
-      <ST.GlobalStyles />
+      <AnimatePresence>
+        <ST.AppWrapper>
+          <Header />
+          <ST.App>{routes}</ST.App>
+        </ST.AppWrapper>
+        <ST.GlobalStyles />
+      </AnimatePresence>
     </>
   );
 };

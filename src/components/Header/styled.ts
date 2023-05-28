@@ -40,3 +40,5 @@ export const HeaderAvatar = styled.img`
   height: 40px;
   border-radius: 10px;
 `;
+
+export const SearchWrapper = styled.div``;

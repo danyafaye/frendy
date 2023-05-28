@@ -6,7 +6,7 @@ type ToastProps = {
 
 type ReturnValue = {
   success: (props: ToastProps) => void;
-  error: (props: ToastProps) => void;
+  error: (e: unknown) => void;
   warning: (props: ToastProps) => void;
   loading: (props: ToastProps) => void;
 };
@@ -16,8 +16,8 @@ const useToast = (): ReturnValue => {
     toast.success(props.text);
   };
 
-  const error = (props: ToastProps) => {
-    toast.error(props.text);
+  const error = (e: unknown) => {
+    toast.error((e as { data: { message: string } }).data?.message);
   };
 
   const warning = (props: ToastProps) => {

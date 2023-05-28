@@ -1,10 +1,13 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
 
-export const WelcomePageWrapper = styled.div`
+export const WelcomePageWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  height: 100%;
 `;
 
 export const UpperFrame = styled.div`

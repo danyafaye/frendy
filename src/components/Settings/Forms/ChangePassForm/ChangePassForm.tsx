@@ -9,6 +9,8 @@ import { useToast } from '@hooks/useToast';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
+import { handleFormError } from '@utils/handleFormError';
+
 import * as ST from '../../styled';
 
 const ChangePassForm: FC = () => {
@@ -20,14 +22,18 @@ const ChangePassForm: FC = () => {
 
   const changePassForm = useFormik({
     initialValues: {
-      oldPassword: '',
+      password: '',
       newPassword: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
-        const { oldPassword, newPassword } = values;
-        changePassword({ password: oldPassword, newPassword: newPassword });
-        toast.success({ text: 'Пароль успешно изменен!' });
+        const { password, newPassword } = values;
+        const res = await changePassword({ password, newPassword });
+        if ('error' in res) {
+          handleFormError(res.error, changePassForm);
+        } else {
+          toast.success({ text: 'Пароль успешно изменен!' });
+        }
       } catch (e) {
         throw e;
       }
@@ -37,7 +43,6 @@ const ChangePassForm: FC = () => {
   return (
     <ST.EditForm onSubmit={changePassForm.handleSubmit}>
       <Input
-        required
         inputLabel="Текущий пароль"
         placeholder="********"
         type={isPassword ? 'password' : 'text'}
@@ -48,12 +53,15 @@ const ChangePassForm: FC = () => {
             <ST.EyeCloseIconStyled onClick={() => setIsPassword(true)} />
           )
         }
-        id="oldPassword"
+        name="password"
         onChange={changePassForm.handleChange}
-        value={changePassForm.values.oldPassword}
+        value={changePassForm.values.password}
+        error={Boolean(changePassForm.errors.password)}
       />
+      {changePassForm.errors && (
+        <div style={{ color: 'red' }}>{changePassForm.errors.password}</div>
+      )}
       <Input
-        required
         inputLabel="Новый пароль"
         placeholder="********"
         type={isPassword ? 'password' : 'text'}
@@ -64,10 +72,14 @@ const ChangePassForm: FC = () => {
             <ST.EyeCloseIconStyled onClick={() => setIsPassword(true)} />
           )
         }
-        id="newPassword"
+        name="newPassword"
         onChange={changePassForm.handleChange}
         value={changePassForm.values.newPassword}
+        error={Boolean(changePassForm.errors.newPassword)}
       />
+      {changePassForm.errors && (
+        <div style={{ color: 'red' }}>{changePassForm.errors.newPassword}</div>
+      )}
       <Button
         type="submit"
         text="Применить"

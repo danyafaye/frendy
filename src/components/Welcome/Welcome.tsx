@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { motion } from 'framer-motion';
+
 import { Footer } from '@components/Footer';
 
 import Schoolboy3D from '@assets/welcomePage/Saly-14.png';
@@ -10,18 +12,26 @@ import * as ST from './styled';
 
 const Welcome: FC = () => {
   return (
-    <ST.WelcomePageWrapper>
+    <ST.WelcomePageWrapper
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, transition: { duration: 1 } }}
+      variants={{
+        hidden: { opacity: 0, y: -20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+      }}
+    >
       <ST.UpperFrame>
-        <img
+        <motion.img
           src={Schoolboy3D}
           alt="Schoolboy 3D Image"
         />
         <div className="welcome">
-          <div className="welcome-title">ПРИВЕТ!</div>
-          <div className="welcome-description">
+          <motion.div className="welcome-title">ПРИВЕТ!</motion.div>
+          <motion.div className="welcome-description">
             Прояви индивидуальность в игровом формате и впусти в свою жизнь мир уникальных 3D
             аватаров!
-          </div>
+          </motion.div>
         </div>
       </ST.UpperFrame>
       <ST.MiddleFrame>

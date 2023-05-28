@@ -7,7 +7,12 @@ import * as ST from './styled';
 
 const Profile: FC = () => {
   return (
-    <ST.ProfileWrapper>
+    <ST.ProfileWrapper
+      initial="hidden"
+      animate="visible"
+      exit={{ opacity: 0, transition: { duration: 1 } }}
+      variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+    >
       <ProfileSidebar />
       <ST.ProfileContentWrapper>
         <Outlet />
