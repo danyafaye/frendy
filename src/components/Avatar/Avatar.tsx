@@ -8,6 +8,8 @@ import { useAuth } from '@src/providers/AuthProvider';
 
 import { useUploadUserModelMutation, useUploadUserAvatarMutation } from '@api/UsersApi/UsersApi';
 
+import { useToast } from '@hooks/useToast';
+
 import { Button } from '@components/Button';
 
 import AvatarTemplate from '@assets/profile_template.png';
@@ -19,6 +21,7 @@ const Avatar: FC = () => {
     userInfo: { avatar, modelAvatar },
     updateUserInfoField,
   } = useAuth();
+  const toast = useToast();
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [uploadUserModel] = useUploadUserModelMutation();
   const [uploadUserAvatar] = useUploadUserAvatarMutation();
@@ -36,9 +39,11 @@ const Avatar: FC = () => {
             const res = await uploadUserAvatar(formData);
             if ('data' in res) {
               updateUserInfoField('avatar', res.data.url);
+            } else {
+              toast.error(res.error);
             }
           } catch (error) {
-            console.log(error);
+            throw error;
           }
         }
       });
@@ -64,9 +69,11 @@ const Avatar: FC = () => {
         const res = await uploadUserModel(formData);
         if ('data' in res) {
           updateUserInfoField('modelAvatar', res.data.url);
+        } else {
+          toast.error(res.error);
         }
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     }
   };
