@@ -16,6 +16,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [userInfo, setUserInfo] = useState<UsersDTO>({
+    modelAvatar: '',
     avatar: '',
     createdAt: '',
     firstName: '',
@@ -106,6 +107,13 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const updateUserInfoField = (name: string, value: string | boolean) => {
+    setUserInfo((p) => ({
+      ...p,
+      [name]: value,
+    }));
+  };
+
   useEffect(() => {
     const accessToken = localStorage.getItem(AUTH_TOKEN);
     if (accessToken) {
@@ -124,6 +132,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         logout,
         userInfo,
         getProfile,
+        updateUserInfoField,
       }}
     >
       {children}

@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 
 import { useAuth } from '@src/providers/AuthProvider';
+import { AUTH_SCHEMA } from '@src/constants/common';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
@@ -10,7 +11,6 @@ import { Button } from '@components/Button';
 import { handleFormError } from '@utils/handleFormError';
 
 import * as ST from '../../styled';
-import { AUTH_SCHEMA } from '@src/constants/common';
 
 type LoginFormType = {
   toggleRegistration: (e: React.MouseEvent<HTMLButtonElement>) => void;

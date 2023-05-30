@@ -71,9 +71,9 @@ export const ProfileContentInnerWrapper = styled.div`
 
 export const AvatarStyled = styled.img`
   width: 100%;
-  background: rgba(255, 206, 112, 0.5);
   border-radius: 10px;
   object-fit: cover;
+  border: 1px solid ${COLORS.$purple50};
 `;
 
 export const ProfileUserName = styled.div`
@@ -147,6 +147,7 @@ export const PostHeaderAvatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 10px;
+  border: 1px solid ${COLORS.$purple50};
 `;
 
 export const PostHeaderContent = styled.div`

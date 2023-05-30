@@ -69,4 +69,11 @@ export const Button = styled(motion.button)<Partial<ButtonProps>>`
         `;
     }
   }}
+  ${(props) => {
+    if (props.disabled)
+      return css`
+        opacity: 0.5;
+        pointer-events: none;
+      `;
+  }}
 `;
