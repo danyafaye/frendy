@@ -57,6 +57,10 @@ const ROUTES: RouteObject[] = [
         element: <ProfileContentPage />,
       },
       {
+        path: '/main/profile?user_id=:user_id',
+        element: <ProfileContentPage />,
+      },
+      {
         path: LINKS.dialogs,
         element: <DialogsPage />,
       },

@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.header`
   position: fixed;
   background-color: ${COLORS.$white100};
   height: 68px;
-  padding: 14px;
+  padding: 14px 20px;
   display: flex;
   justify-content: space-between;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
@@ -41,5 +41,3 @@ export const HeaderAvatar = styled.img`
   border-radius: 10px;
   border: 1px solid ${COLORS.$purple50};
 `;
-
-export const SearchWrapper = styled.div``;

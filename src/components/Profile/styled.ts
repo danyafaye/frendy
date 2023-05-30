@@ -12,7 +12,7 @@ import { ReactComponent as ImageIcon } from '@assets/icons/image_icon.svg';
 export const ProfileWrapper = styled(motion.div)`
   display: flex;
   height: 100%;
-  background-color: #f6f8f9;
+  background-color: rgba(130, 97, 108, 0.25);
 `;
 
 export const ProfileBlock = styled(motion.div)`
@@ -78,7 +78,7 @@ export const AvatarStyled = styled.img`
 
 export const ProfileUserName = styled.div`
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 300;
   word-break: normal;
   color: ${COLORS.$gray90};
   align-items: center;
@@ -230,6 +230,10 @@ export const PostsTextArea = styled.textarea`
   padding: 10px;
   border: 1px solid #d5dadd;
   border-radius: 8px;
+  &::placeholder {
+    font-size: 18px;
+    font-weight: 300;
+  }
 `;
 
 export const CreatePostForm = styled.form`
@@ -239,7 +243,7 @@ export const CreatePostForm = styled.form`
   border-radius: 8px;
   padding: 10px;
   row-gap: 10px;
-  background-color: #f6f8f9;
+  background-color: ${COLORS.$white80};
 `;
 
 export const UserPostEditWrapper = styled.div`
@@ -261,3 +265,32 @@ export const ImageIconStyled = styled(ImageIcon)`
     fill: ${COLORS.$purple50};
   }
 `;
+
+export const PostsPlug = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #696969;
+`;
+
+export const DropAreaActive = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 75.5px 0;
+  border: 3px dashed #d5dadd;
+  background-color: ${COLORS.$white80};
+  border-radius: 8px;
+`;
+
+export const LoadImageWrapper = styled.div``;
+
+export const StyledInputFile = styled.input``;
+
+export const StyledLabelFile = styled.label``;

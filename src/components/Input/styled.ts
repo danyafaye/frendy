@@ -38,6 +38,13 @@ export const Input = styled.input<Partial<InputProps>>`
     }
   }};
   ${(props) => {
+    if (props.icon) {
+      return css`
+        padding-right: 55px !important;
+      `;
+    }
+  }}
+  ${(props) => {
     if (props.error) {
       return css`
         border-bottom: 1px solid red !important;
@@ -85,7 +92,7 @@ export const InputWrapper = styled.div`
 
 export const InputRightIcon = styled.div<Partial<InputProps>>`
   position: absolute;
-  right: 15px;
+  right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

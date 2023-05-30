@@ -5,13 +5,12 @@ import { LINKS } from '@src/links';
 import { useAuth } from '@src/providers/AuthProvider';
 
 import { Button } from '@components/Button';
-import { Input } from '@components/Input';
 
 import FrendyLogo from '@assets/icons/frendy-logo.png';
 import HeaderTemplate from '@assets/header_template.png';
-import { ReactComponent as SearchIcon } from '@assets/icons/search_icon.svg';
 
 import * as ST from './styled';
+import { SearchUsers } from './SearchUsers';
 
 const Header: FC = () => {
   const navigate = useNavigate();
@@ -37,16 +36,7 @@ const Header: FC = () => {
         alt="Frendy Логотип"
         onClick={navigateToHome}
       />
-      {isAuth && (
-        <ST.SearchWrapper>
-          <Input
-            decoration="filled"
-            inputSize="md"
-            style={{ fontSize: '24px' }}
-            icon={<SearchIcon />}
-          />
-        </ST.SearchWrapper>
-      )}
+      {isAuth && <SearchUsers />}
 
       <ST.HeaderButtons>
         {isAuth ? (

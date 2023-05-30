@@ -20,6 +20,7 @@ const Welcome: FC = () => {
         hidden: { opacity: 0, y: -20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
       }}
+      key="WELCOME_WRAPPER"
     >
       <ST.UpperFrame>
         <motion.img
@@ -27,8 +28,16 @@ const Welcome: FC = () => {
           alt="Schoolboy 3D Image"
         />
         <div className="welcome">
-          <motion.div className="welcome-title">ПРИВЕТ!</motion.div>
-          <motion.div className="welcome-description">
+          <motion.div
+            key="WELCOME-HELLO"
+            className="welcome-title"
+          >
+            ПРИВЕТ!
+          </motion.div>
+          <motion.div
+            key="WELCOME-DESCRIPTION"
+            className="welcome-description"
+          >
             Прояви индивидуальность в игровом формате и впусти в свою жизнь мир уникальных 3D
             аватаров!
           </motion.div>

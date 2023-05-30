@@ -13,6 +13,7 @@ const Auth: FC = () => {
       animate="visible"
       exit={{ opacity: 0, transition: { duration: 1 } }}
       variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+      key="AUTH_PAGE_WRAPPER"
     >
       {!isRegistration ? (
         <LoginForm toggleRegistration={() => setIsRegistration(!isRegistration)} />

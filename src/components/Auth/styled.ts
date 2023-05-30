@@ -11,7 +11,7 @@ export const AuthPageWrapper = styled(motion.div)`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #f6f8f9;
+  background-color: ${COLORS.$white80};
   overflow-x: hidden;
 `;
 

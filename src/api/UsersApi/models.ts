@@ -39,14 +39,15 @@ type UserPostsDTO = {
   user: UsersDTO;
 };
 
-type CreateUserPostRequestDTO = {
-  text?: string;
-  attached?: string;
-};
+type CreateUserPostRequestDTO = FormData;
 
 type EditUserPostRequestDTO = {
   text: string;
   id: string;
+};
+
+type UsersSearchRequestDTO = {
+  query: string;
 };
 
 type UploadUserFileDTO = {
@@ -65,6 +66,7 @@ export type {
   UserPostsRequestDTO,
   CreateUserPostRequestDTO,
   EditUserPostRequestDTO,
+  UsersSearchRequestDTO,
   UploadUserFileDTO,
   UploadUserFileRequestDTO,
 };

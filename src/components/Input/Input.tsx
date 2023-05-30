@@ -21,20 +21,19 @@ const Input: FC<InputProps> = ({
   ...props
 }) => {
   return (
-    <>
-      <ST.Label>
-        {inputLabel}
-        <ST.InputWrapper>
-          <ST.Input
-            inputSize={inputSize}
-            decoration={decoration}
-            error={error}
-            {...props}
-          />
-          <ST.InputRightIcon decoration={decoration}>{icon}</ST.InputRightIcon>
-        </ST.InputWrapper>
-      </ST.Label>
-    </>
+    <ST.Label>
+      {inputLabel}
+      <ST.InputWrapper>
+        <ST.Input
+          inputSize={inputSize}
+          decoration={decoration}
+          error={error}
+          icon={Boolean(icon)}
+          {...props}
+        />
+        <ST.InputRightIcon decoration={decoration}>{icon}</ST.InputRightIcon>
+      </ST.InputWrapper>
+    </ST.Label>
   );
 };
 

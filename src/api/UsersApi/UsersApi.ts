@@ -8,22 +8,26 @@ import {
   UserPostsDTO,
   UserPostsRequestDTO,
   UsersDTO,
+  UsersSearchRequestDTO,
   UploadUserFileDTO,
   UploadUserFileRequestDTO,
 } from '@api/UsersApi/models';
 
 const UsersApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getUsers: build.query<UsersDTO[], void>({
+    getUsersList: build.query<UsersDTO[], UsersSearchRequestDTO>({
       query: (dto) => ({
-        url: '/users',
-        body: dto,
+        url: `/users?search=${dto.query}`,
+      }),
+    }),
+    getUser: build.query<UsersDTO[], UsersSearchRequestDTO>({
+      query: (dto) => ({
+        url: `/users?id=${dto.query}`,
       }),
     }),
     getPersonalInfo: build.query<UsersDTO, void>({
-      query: (dto) => ({
+      query: () => ({
         url: '/users/me',
-        body: dto,
       }),
     }),
     uploadUserModel: build.mutation<UploadUserFileDTO, UploadUserFileRequestDTO>({
@@ -83,7 +87,7 @@ const UsersApi = api.injectEndpoints({
 });
 
 export const {
-  useGetUsersQuery,
+  useLazyGetUsersListQuery,
   useLazyGetPersonalInfoQuery,
   useChangeUserPersonalInfoMutation,
   useChangeUserPasswordMutation,
@@ -92,6 +96,7 @@ export const {
   useCreateUserPostMutation,
   useDeleteUserPostMutation,
   useEditUserPostMutation,
+  useLazyGetUserQuery,
   useUploadUserModelMutation,
   useUploadUserAvatarMutation,
 } = UsersApi;

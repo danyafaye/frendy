@@ -4,7 +4,7 @@ import { CircleLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 
-import { useAuth } from '@src/providers/AuthProvider';
+import { MiniProfilePostsProps } from '@src/@types/profile';
 
 import {
   useCreateUserPostMutation,
@@ -24,16 +24,29 @@ import { handleFormError } from '@utils/handleFormError';
 import HeaderTemplate from '@assets/header_template.png';
 
 import * as ST from '../../styled';
+import { StyledInputFile, StyledLabelFile } from '../../styled';
 
-const Posts: FC = () => {
-  const { userInfo } = useAuth();
+const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
   const toast = useToast();
-
+  const [userPosts, setUserPosts] = useState<UserPostsDTO[]>([]);
   const [isEditPost, setIsEditPost] = useState('');
   const [editInputValue, setEditInputValue] = useState('');
+  const [image, setImage] = useState<string>();
 
-  const [getUsersPost, { data: userPosts, status: userPostsIsLoading }] =
-    useLazyGetUserPostsQuery();
+  const [getUsersPost, { status: userPostsIsLoading }] = useLazyGetUserPostsQuery();
+
+  const getUsersPostHandler = async () => {
+    try {
+      const res = await getUsersPost({ user_id: userInfo.id });
+      if ('error' in res) {
+        toast.error(res.error);
+      } else {
+        setUserPosts(res.data || []);
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   const [createUserPost] = useCreateUserPostMutation();
   const [deleteUserPost] = useDeleteUserPostMutation();
@@ -52,15 +65,19 @@ const Posts: FC = () => {
   const createPostForm = useFormik({
     initialValues: {
       text: '',
+      attached: {} as File,
     },
     onSubmit: async (values) => {
       try {
-        const res = await createUserPost({ text: values.text });
+        const formData = new FormData();
+        formData.append('attached', values.attached);
+        formData.append('text', values.text);
+        const res = await createUserPost(formData);
         if ('error' in res) {
           handleFormError(res.error, createPostForm);
         } else {
           toast.success({ text: 'Пост опубликован!' });
-          await getUsersPost({ user_id: userInfo.id });
+          await getUsersPostHandler();
           createPostForm.resetForm();
         }
       } catch (e) {
@@ -76,7 +93,7 @@ const Posts: FC = () => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост удален!' });
-        await getUsersPost({ user_id: userInfo.id });
+        await getUsersPostHandler();
       }
     } catch (e) {
       throw e;
@@ -90,7 +107,7 @@ const Posts: FC = () => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост отредактирован!' });
-        await getUsersPost({ user_id: userInfo.id });
+        await getUsersPostHandler();
         setIsEditPost('');
       }
     } catch (e) {
@@ -99,25 +116,21 @@ const Posts: FC = () => {
   };
 
   useEffect(() => {
-    getUsersPost({ user_id: userInfo.id });
-  }, []);
+    getUsersPostHandler();
+  }, [userInfo]);
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files as FileList)[0];
+    createPostForm.setFieldValue('attached', file);
+    setImage(window.URL.createObjectURL(file));
+  };
 
   const renderedPosts = useMemo(() => {
-    return (
-      userPosts?.map((it) => {
+    return userPosts.length !== 0 ? (
+      userPosts.map((it) => {
         const postCreated = new Date(it.createdAt);
         const { user } = it;
-        return userPostsIsLoading === QueryStatus.pending ? (
-          <CircleLoader
-            color="#82616C"
-            size={150}
-            cssOverride={{
-              position: 'absolute',
-              top: '40%',
-              left: '45%',
-            }}
-          />
-        ) : (
+        return (
           <ST.Post key={it.id}>
             <ST.PostHeader>
               <ST.PostHeaderLeftContent>
@@ -137,10 +150,12 @@ const Posts: FC = () => {
                   </ST.PostHeaderBottomContent>
                 </ST.PostHeaderContent>
               </ST.PostHeaderLeftContent>
-              <div>
-                <ST.PostHeaderEditStyled onClick={() => isEditPostHandler(it)} />
-                <ST.PostHeaderDeleteStyled onClick={() => deletePostHandler(it.id)} />
-              </div>
+              {otherUserId ? null : (
+                <div>
+                  <ST.PostHeaderEditStyled onClick={() => isEditPostHandler(it)} />
+                  <ST.PostHeaderDeleteStyled onClick={() => deletePostHandler(it.id)} />
+                </div>
+              )}
             </ST.PostHeader>
             <ST.PostContent>
               {isEditPost === it.id ? (
@@ -161,7 +176,11 @@ const Posts: FC = () => {
               ) : (
                 it.text
               )}
-              {it.attached}
+
+              <img
+                src={it.attached}
+                alt="image"
+              />
             </ST.PostContent>
             <ST.PostFooter>
               <ST.IconsWrapper>
@@ -173,30 +192,67 @@ const Posts: FC = () => {
             </ST.PostFooter>
           </ST.Post>
         );
-      }) || []
+      })
+    ) : (
+      <ST.PostsPlug>
+        К сожалению, этот пользователь пока не опубликовал ни одного поста :(
+      </ST.PostsPlug>
     );
-  }, [userPosts, userPostsIsLoading, isEditPost, editInputValue]);
+  }, [userPosts, userPostsIsLoading, isEditPost, editInputValue, otherUserId, userInfo]);
 
   return (
     <ST.PostsWrapper>
-      <ST.CreatePostForm onSubmit={createPostForm.handleSubmit}>
-        <ST.PostsTextArea
-          onChange={createPostForm.handleChange}
-          value={createPostForm.values.text}
-          name="text"
-          placeholder="Что у вас нового?"
+      {userPostsIsLoading === QueryStatus.pending ? (
+        <CircleLoader
+          color="#82616C"
+          size={150}
+          cssOverride={{
+            position: 'absolute',
+            top: '40%',
+            left: '45%',
+          }}
         />
-        <ST.CreatePostControlsWrapper>
-          <ST.ImageIconStyled />
-          <Button
-            type="submit"
-            text="Опубликовать"
-            decoration="filled"
-            size="sm"
-          />
-        </ST.CreatePostControlsWrapper>
-      </ST.CreatePostForm>
-      {renderedPosts}
+      ) : (
+        <>
+          {otherUserId ? null : (
+            <ST.CreatePostForm onSubmit={createPostForm.handleSubmit}>
+              <ST.PostsTextArea
+                onChange={createPostForm.handleChange}
+                value={createPostForm.values.text}
+                name="text"
+                placeholder="Что у вас нового?"
+              />
+              {image && (
+                <img
+                  src={image}
+                  alt="img"
+                />
+              )}
+              <ST.CreatePostControlsWrapper>
+                <ST.LoadImageWrapper>
+                  <StyledInputFile
+                    name="attend"
+                    id="attend"
+                    type="file"
+                    onChange={onChangeHandler}
+                  />
+                  <StyledLabelFile htmlFor="attend">
+                    <ST.ImageIconStyled />
+                  </StyledLabelFile>
+                </ST.LoadImageWrapper>
+
+                <Button
+                  type="submit"
+                  text="Опубликовать"
+                  decoration="filled"
+                  size="sm"
+                />
+              </ST.CreatePostControlsWrapper>
+            </ST.CreatePostForm>
+          )}
+          {renderedPosts}
+        </>
+      )}
     </ST.PostsWrapper>
   );
 };
