@@ -8,6 +8,8 @@ import {
   UserPostsDTO,
   UserPostsRequestDTO,
   UsersDTO,
+  UploadUserFileDTO,
+  UploadUserFileRequestDTO,
 } from '@api/UsersApi/models';
 
 const UsersApi = api.injectEndpoints({
@@ -22,6 +24,20 @@ const UsersApi = api.injectEndpoints({
       query: (dto) => ({
         url: '/users/me',
         body: dto,
+      }),
+    }),
+    uploadUserModel: build.mutation<UploadUserFileDTO, UploadUserFileRequestDTO>({
+      query: (dto) => ({
+        url: '/users/modelAvatar',
+        body: dto,
+        method: 'post',
+      }),
+    }),
+    uploadUserAvatar: build.mutation<UploadUserFileDTO, UploadUserFileRequestDTO>({
+      query: (dto) => ({
+        url: '/users/avatar',
+        body: dto,
+        method: 'post',
       }),
     }),
     changeUserPersonalInfo: build.mutation<ChangePersonalInfoDTO, ChangePersonalInfoRequestDTO>({
@@ -76,6 +92,8 @@ export const {
   useCreateUserPostMutation,
   useDeleteUserPostMutation,
   useEditUserPostMutation,
+  useUploadUserModelMutation,
+  useUploadUserAvatarMutation,
 } = UsersApi;
 
 export { UsersApi };

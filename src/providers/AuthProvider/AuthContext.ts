@@ -15,6 +15,7 @@ type AuthContextState = {
   logout: () => void;
   userInfo: UsersDTO;
   getProfile: () => Promise<void>;
+  updateUserInfoField: (name: string, value: string | boolean) => void;
 };
 
 const AuthContext = createContext({} as AuthContextState);

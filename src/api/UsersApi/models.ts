@@ -7,6 +7,7 @@ type UsersDTO = {
   createdAt: string;
   lastName: string;
   avatar: string;
+  modelAvatar: string;
 };
 
 type ChangePersonalInfoRequestDTO = {
@@ -48,6 +49,13 @@ type EditUserPostRequestDTO = {
   id: string;
 };
 
+type UploadUserFileDTO = {
+  message: string;
+  url: string;
+};
+
+type UploadUserFileRequestDTO = FormData;
+
 export type {
   UsersDTO,
   ChangePersonalInfoRequestDTO,
@@ -57,4 +65,6 @@ export type {
   UserPostsRequestDTO,
   CreateUserPostRequestDTO,
   EditUserPostRequestDTO,
+  UploadUserFileDTO,
+  UploadUserFileRequestDTO,
 };

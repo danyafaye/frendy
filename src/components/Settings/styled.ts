@@ -12,7 +12,7 @@ export const SettingsWrapper = styled(motion.div)`
   height: 100%;
   border-radius: 10px;
   padding: 24px;
-  row-gap: 10px;
+  row-gap: 27px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

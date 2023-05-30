@@ -4,6 +4,7 @@ import { useAuth } from '@src/providers/AuthProvider';
 
 import { PersonalForm } from '@components/Settings/Forms/PersonalForm';
 import { ChangePassForm } from '@components/Settings/Forms/ChangePassForm';
+import { Avatar } from '@components/Avatar';
 
 import * as ST from './styled';
 
@@ -54,6 +55,9 @@ const Settings: FC = () => {
           <ChangePassForm />
         </ST.SettingsBlock>
       </ST.SettingsBlockWrapper>
+      <ST.SettingsBlock>
+        <Avatar />
+      </ST.SettingsBlock>
     </ST.SettingsWrapper>
   );
 };

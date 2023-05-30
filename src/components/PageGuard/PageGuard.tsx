@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 
-import { useAuth } from '@src/providers/AuthProvider';
+import { AUTH_TOKEN } from '@src/constants/common';
 
 type Props = PropsWithChildren & {
   Navigate: React.ReactNode;
@@ -8,7 +8,7 @@ type Props = PropsWithChildren & {
 };
 
 const PageGuard: FC<Props> = (props) => {
-  const { isAuth } = useAuth();
+  const isAuth = Boolean(localStorage.getItem(AUTH_TOKEN));
   if ((isAuth && props.type === 'main') || (!isAuth && props.type === 'auth')) {
     return <>{props.children}</>;
   }
