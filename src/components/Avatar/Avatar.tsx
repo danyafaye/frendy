@@ -1,8 +1,10 @@
-import { FC, useRef } from 'react';
+import { FC, useMemo, useRef } from 'react';
 
 import { Canvas, useLoader } from '@react-three/fiber';
 import { CameraControls } from '@react-three/drei';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 import { useAuth } from '@src/providers/AuthProvider';
 
@@ -25,8 +27,23 @@ const Avatar: FC = () => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [uploadUserModel] = useUploadUserModelMutation();
   const [uploadUserAvatar] = useUploadUserAvatarMutation();
-  const modelObject = modelAvatar ? useLoader(GLTFLoader, modelAvatar) : undefined;
   const avatarModelRef = useRef<HTMLCanvasElement>(null);
+
+  const modelObject = useMemo(() => {
+    const modelExtension = modelAvatar.slice(modelAvatar.lastIndexOf('.') + 1);
+    if (!modelAvatar) return undefined;
+    if (['gltf', 'glb', 'vrm'].includes(modelExtension)) {
+      return useLoader(GLTFLoader, modelAvatar).scene;
+    }
+    if (modelExtension === 'obj') {
+      return useLoader(OBJLoader, modelAvatar);
+    }
+    if (modelExtension === 'fbx') {
+      return useLoader(FBXLoader, modelAvatar);
+    }
+    toast.error('Добавьте новую модель подходящего формата: gltf, glb, obj, fbx, vrm');
+    return undefined;
+  }, [modelAvatar]);
 
   const makeAvatarScreenshot = async () => {
     const canvas = avatarModelRef.current;
@@ -97,9 +114,7 @@ const Avatar: FC = () => {
                   shadow-mapSize-height={2048}
                 />
                 <group>
-                  <primitive
-                    object={Array.isArray(modelObject) ? modelObject[0].scene : modelObject.scene}
-                  />
+                  <primitive object={modelObject} />
                 </group>
                 <mesh
                   rotation={[-0.5 * Math.PI, 0, 0]}
