@@ -30,8 +30,8 @@ const Avatar: FC = () => {
   const avatarModelRef = useRef<HTMLCanvasElement>(null);
 
   const modelObject = useMemo(() => {
-    const modelExtension = modelAvatar.slice(modelAvatar.lastIndexOf('.') + 1);
     if (!modelAvatar) return undefined;
+    const modelExtension = modelAvatar.slice(modelAvatar.lastIndexOf('.') + 1);
     if (['gltf', 'glb', 'vrm'].includes(modelExtension)) {
       return useLoader(GLTFLoader, modelAvatar).scene;
     }
