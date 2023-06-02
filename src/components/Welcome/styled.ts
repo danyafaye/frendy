@@ -80,14 +80,13 @@ export const BottomFrame = styled.div`
     flex-direction: column;
     row-gap: 20px;
     &-title {
-      font-weight: 700;
-      font-size: 96px;
+      font-weight: 600;
+      font-size: 64px;
       color: ${COLORS.$purple50};
     }
     &-description {
-      font-weight: 400;
+      font-weight: 300;
       font-size: 32px;
-      line-height: 39px;
 
       color: ${COLORS.$gray90};
     }

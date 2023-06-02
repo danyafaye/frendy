@@ -8,12 +8,12 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 
-import { AUTH_REFRESH_TOKEN, AUTH_TOKEN } from '@src/constants/common';
+import { AUTH_REFRESH_TOKEN, AUTH_TOKEN, BASE_API_URL } from '@src/constants/common';
 
 import { AuthResponseDTO } from '@api/AuthApi';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://62.217.179.254:5000',
+  baseUrl: BASE_API_URL,
   prepareHeaders: (headers) => {
     const authToken = localStorage.getItem(AUTH_TOKEN);
 

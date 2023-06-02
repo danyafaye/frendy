@@ -1,4 +1,7 @@
+import ReactPlayer from 'react-player';
+
 import styled from 'styled-components';
+import { Image } from 'primereact/image';
 import { motion } from 'framer-motion';
 
 import { COLORS } from '@src/constants/styles';
@@ -8,11 +11,12 @@ import { ReactComponent as LikeIcon } from '@assets/icons/like_icon.svg';
 import { ReactComponent as CommentIcon } from '@assets/icons/comment_icon.svg';
 import { ReactComponent as DeleteIcon } from '@assets/icons/delete_icon.svg';
 import { ReactComponent as ImageIcon } from '@assets/icons/image_icon.svg';
+import { ReactComponent as VideoIcon } from '@assets/icons/video_icon.svg';
 
 export const ProfileWrapper = styled(motion.div)`
   display: flex;
   height: 100%;
-  background-color: #f6f8f9;
+  background-color: rgba(130, 97, 108, 0.25);
 `;
 
 export const ProfileBlock = styled(motion.div)`
@@ -76,9 +80,14 @@ export const AvatarStyled = styled.img`
   border: 1px solid ${COLORS.$purple50};
 `;
 
+export const AvatarWrapper = styled.div`
+  width: 256px;
+  height: 256px;
+`;
+
 export const ProfileUserName = styled.div`
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 300;
   word-break: normal;
   color: ${COLORS.$gray90};
   align-items: center;
@@ -169,7 +178,11 @@ export const PostHeaderBottomContent = styled.div`
   font-weight: 300;
 `;
 
-export const PostContent = styled.div``;
+export const PostContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
 
 export const PostHeaderEditStyled = styled(EditIcon)`
   width: 30px;
@@ -230,6 +243,10 @@ export const PostsTextArea = styled.textarea`
   padding: 10px;
   border: 1px solid #d5dadd;
   border-radius: 8px;
+  &::placeholder {
+    font-size: 18px;
+    font-weight: 300;
+  }
 `;
 
 export const CreatePostForm = styled.form`
@@ -239,7 +256,7 @@ export const CreatePostForm = styled.form`
   border-radius: 8px;
   padding: 10px;
   row-gap: 10px;
-  background-color: #f6f8f9;
+  background-color: ${COLORS.$white80};
 `;
 
 export const UserPostEditWrapper = styled.div`
@@ -254,10 +271,105 @@ export const CreatePostControlsWrapper = styled.div`
   align-items: center;
 `;
 
-export const ImageIconStyled = styled(ImageIcon)`
-  transition: fill 0.3s ease-in-out;
+export const ImageIconStyled = styled(ImageIcon)``;
+
+export const VideoIconStyled = styled(VideoIcon)``;
+
+export const PostsPlug = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #696969;
+`;
+
+export const DropAreaActive = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 75.5px 0;
+  border: 3px dashed #d5dadd;
+  background-color: ${COLORS.$white80};
+  border-radius: 8px;
+`;
+
+export const StyledPostImage = styled(Image)`
+  > img {
+    max-width: 500px;
+    max-height: 500px;
+  }
+`;
+
+export const StyledCloseIcon = styled.div`
+  position: absolute;
+  color: white;
+  right: 0;
+  top: 0;
+  padding: 3px;
+  cursor: pointer;
+  outline: 0;
+  background: rgba(0, 0, 0, 0.48);
+  font-weight: 500;
+  font-size: 12px;
+`;
+
+export const StyledImageDiv = styled.div`
+  position: relative;
+`;
+
+export const StyledPostPlayer = styled(ReactPlayer)`
+  max-width: 1100px;
+`;
+
+export const StyledAttachedWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+`;
+
+export const LoadImageWrapper = styled.div``;
+
+export const StyledInputFile = styled.input``;
+
+export const StyledLabelFile = styled.label`
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
   &:hover {
     fill: ${COLORS.$purple50};
+    color: ${COLORS.$purple50};
   }
+`;
+
+export const ImagesSplitter = styled.div`
+  font-size: 28px;
+  color: inherit;
+`;
+
+export const DialogWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  justify-content: center;
+`;
+
+export const DialogHeader = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  column-gap: 10px;
+`;
+
+export const AvatarHeader = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
 `;

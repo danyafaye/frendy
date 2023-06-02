@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { CircleLoader } from 'react-spinners';
 
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'primereact/resources/primereact.min.css';
 import { AnimatePresence } from 'framer-motion';
 
 import { ROUTES } from '@src/routes';

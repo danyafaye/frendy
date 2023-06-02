@@ -4,7 +4,7 @@ import { CircleLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { QueryStatus } from '@reduxjs/toolkit/query';
 
-import { useAuth } from '@src/providers/AuthProvider';
+import { MiniProfilePostsProps } from '@src/@types/profile';
 
 import {
   useCreateUserPostMutation,
@@ -25,15 +25,31 @@ import HeaderTemplate from '@assets/header_template.png';
 
 import * as ST from '../../styled';
 
-const Posts: FC = () => {
-  const { userInfo } = useAuth();
-  const toast = useToast();
+const VIDEO_FORMATS = ['h264', 'mp4', 'ogg', 'raw', 'mov'];
+const IMAGE_FORMATS = ['bmp', 'png', 'jpg', 'gif', 'jpeg', 'heic', 'webp'];
 
+const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
+  const toast = useToast();
+  const [userPosts, setUserPosts] = useState<UserPostsDTO[]>([]);
   const [isEditPost, setIsEditPost] = useState('');
   const [editInputValue, setEditInputValue] = useState('');
+  const [file, setFile] = useState<string>();
+  const [fileType, setFileType] = useState<string>();
 
-  const [getUsersPost, { data: userPosts, status: userPostsIsLoading }] =
-    useLazyGetUserPostsQuery();
+  const [getUsersPost, { status: userPostsIsLoading }] = useLazyGetUserPostsQuery();
+
+  const getUsersPostHandler = async () => {
+    try {
+      const res = await getUsersPost({ user_id: userInfo.id });
+      if ('error' in res) {
+        toast.error(res.error);
+      } else {
+        setUserPosts(res.data || []);
+      }
+    } catch (e) {
+      throw e;
+    }
+  };
 
   const [createUserPost] = useCreateUserPostMutation();
   const [deleteUserPost] = useDeleteUserPostMutation();
@@ -52,16 +68,31 @@ const Posts: FC = () => {
   const createPostForm = useFormik({
     initialValues: {
       text: '',
+      attached: {} as File,
     },
     onSubmit: async (values) => {
       try {
-        const res = await createUserPost({ text: values.text });
-        if ('error' in res) {
-          handleFormError(res.error, createPostForm);
+        const formData = new FormData();
+        formData.append('attached', values.attached);
+        formData.append('text', values.text);
+        if (!values.text && !values.attached.name) {
+          toast.error({
+            data: { message: 'Для публикации поста необходимо указать текст или загрузить файл' },
+          });
         } else {
-          toast.success({ text: 'Пост опубликован!' });
-          await getUsersPost({ user_id: userInfo.id });
-          createPostForm.resetForm();
+          const res = await createUserPost(formData);
+          if ('error' in res) {
+            handleFormError(res.error, createPostForm);
+          } else {
+            toast.success({ text: 'Пост опубликован!' });
+            setFile('');
+            setFileType('');
+            if (typeof file === 'string') {
+              window.URL.revokeObjectURL(file);
+            }
+            await getUsersPostHandler();
+            createPostForm.resetForm();
+          }
         }
       } catch (e) {
         throw e;
@@ -76,7 +107,7 @@ const Posts: FC = () => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост удален!' });
-        await getUsersPost({ user_id: userInfo.id });
+        setUserPosts(userPosts.filter((p) => p.id !== id));
       }
     } catch (e) {
       throw e;
@@ -90,8 +121,14 @@ const Posts: FC = () => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост отредактирован!' });
-        await getUsersPost({ user_id: userInfo.id });
         setIsEditPost('');
+        setUserPosts(
+          userPosts.map((post) => {
+            if (post.id === request.id) {
+              return res.data;
+            } else return post;
+          }),
+        );
       }
     } catch (e) {
       throw e;
@@ -99,25 +136,25 @@ const Posts: FC = () => {
   };
 
   useEffect(() => {
-    getUsersPost({ user_id: userInfo.id });
-  }, []);
+    getUsersPostHandler();
+  }, [userInfo]);
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files as FileList)[0];
+    createPostForm.setFieldValue('attached', file);
+    const fileType = file.type.split('/')[0];
+    setFile(window.URL.createObjectURL(file));
+    setFileType(fileType);
+  };
 
   const renderedPosts = useMemo(() => {
-    return (
-      userPosts?.map((it) => {
+    return userPosts.length !== 0 ? (
+      userPosts.map((it) => {
         const postCreated = new Date(it.createdAt);
         const { user } = it;
-        return userPostsIsLoading === QueryStatus.pending ? (
-          <CircleLoader
-            color="#82616C"
-            size={150}
-            cssOverride={{
-              position: 'absolute',
-              top: '40%',
-              left: '45%',
-            }}
-          />
-        ) : (
+        const isVideo = VIDEO_FORMATS.includes(it.attached?.split('.').at(-1) as string);
+        const isImage = IMAGE_FORMATS.includes(it.attached?.split('.').at(-1) as string);
+        return (
           <ST.Post key={it.id}>
             <ST.PostHeader>
               <ST.PostHeaderLeftContent>
@@ -133,14 +170,16 @@ const Posts: FC = () => {
                   </ST.PostHeaderUpperContent>
                   <ST.PostHeaderBottomContent>
                     {postCreated.toLocaleDateString()}{' '}
-                    {postCreated.toLocaleTimeString().slice(0, 5)}
+                    {postCreated.toLocaleTimeString().slice(0, -3)}
                   </ST.PostHeaderBottomContent>
                 </ST.PostHeaderContent>
               </ST.PostHeaderLeftContent>
-              <div>
-                <ST.PostHeaderEditStyled onClick={() => isEditPostHandler(it)} />
-                <ST.PostHeaderDeleteStyled onClick={() => deletePostHandler(it.id)} />
-              </div>
+              {otherUserId ? null : (
+                <div>
+                  <ST.PostHeaderEditStyled onClick={() => isEditPostHandler(it)} />
+                  <ST.PostHeaderDeleteStyled onClick={() => deletePostHandler(it.id)} />
+                </div>
+              )}
             </ST.PostHeader>
             <ST.PostContent>
               {isEditPost === it.id ? (
@@ -159,10 +198,31 @@ const Posts: FC = () => {
                   />
                 </ST.UserPostEditWrapper>
               ) : (
-                it.text
+                <div>{it.text}</div>
               )}
-              {it.attached}
+              {it.attached && (
+                <>
+                  {isImage && (
+                    <ST.StyledAttachedWrapper>
+                      <ST.StyledPostImage
+                        src={it.attached}
+                        alt="image"
+                        preview
+                      />
+                    </ST.StyledAttachedWrapper>
+                  )}
+                  {isVideo && (
+                    <ST.StyledAttachedWrapper>
+                      <ST.StyledPostPlayer
+                        controls
+                        url={it.attached}
+                      />
+                    </ST.StyledAttachedWrapper>
+                  )}
+                </>
+              )}
             </ST.PostContent>
+            {/* TODO: реализовать когда сделаются на бэке лайки и комменты
             <ST.PostFooter>
               <ST.IconsWrapper>
                 <ST.LikeStyled />
@@ -170,33 +230,97 @@ const Posts: FC = () => {
               <ST.IconsWrapper>
                 <ST.CommentStyled />
               </ST.IconsWrapper>
-            </ST.PostFooter>
+            </ST.PostFooter>*/}
           </ST.Post>
         );
-      }) || []
+      })
+    ) : (
+      <ST.PostsPlug>
+        К сожалению, этот пользователь пока не опубликовал ни одного поста :(
+      </ST.PostsPlug>
     );
-  }, [userPosts, userPostsIsLoading, isEditPost, editInputValue]);
+  }, [userPosts, userPostsIsLoading, isEditPost, editInputValue, otherUserId, userInfo]);
+
+  const onCloseIconClick = () => {
+    setFile('');
+    setFileType('');
+    createPostForm.setFieldValue('attached', {});
+  };
 
   return (
     <ST.PostsWrapper>
-      <ST.CreatePostForm onSubmit={createPostForm.handleSubmit}>
-        <ST.PostsTextArea
-          onChange={createPostForm.handleChange}
-          value={createPostForm.values.text}
-          name="text"
-          placeholder="Что у вас нового?"
+      {userPostsIsLoading === QueryStatus.pending ? (
+        <CircleLoader
+          color="#82616C"
+          size={150}
+          cssOverride={{
+            position: 'absolute',
+            top: '40%',
+            left: '45%',
+          }}
         />
-        <ST.CreatePostControlsWrapper>
-          <ST.ImageIconStyled />
-          <Button
-            type="submit"
-            text="Опубликовать"
-            decoration="filled"
-            size="sm"
-          />
-        </ST.CreatePostControlsWrapper>
-      </ST.CreatePostForm>
-      {renderedPosts}
+      ) : (
+        <>
+          {otherUserId ? null : (
+            <ST.CreatePostForm onSubmit={createPostForm.handleSubmit}>
+              <ST.PostsTextArea
+                onChange={createPostForm.handleChange}
+                value={createPostForm.values.text}
+                name="text"
+                placeholder="Что у вас нового?"
+              />
+              {file &&
+                (fileType === 'image' ? (
+                  <ST.StyledAttachedWrapper>
+                    <ST.StyledImageDiv>
+                      <ST.StyledPostImage
+                        src={file}
+                        alt="img"
+                        preview
+                      />
+                      <ST.StyledCloseIcon onClick={onCloseIconClick}>x</ST.StyledCloseIcon>
+                    </ST.StyledImageDiv>
+                  </ST.StyledAttachedWrapper>
+                ) : (
+                  <ST.StyledAttachedWrapper>
+                    <ST.StyledImageDiv>
+                      <ST.StyledPostPlayer
+                        controls
+                        url={file}
+                      />
+                      <ST.StyledCloseIcon onClick={onCloseIconClick}>x</ST.StyledCloseIcon>
+                    </ST.StyledImageDiv>
+                  </ST.StyledAttachedWrapper>
+                ))}
+              <ST.CreatePostControlsWrapper>
+                <ST.LoadImageWrapper>
+                  <ST.StyledInputFile
+                    name="attend"
+                    id="attend"
+                    type="file"
+                    onChange={onChangeHandler}
+                    hidden
+                    accept=".bmp, .png, .jpg, .gif, .jpeg, .heic, .webp, .h264, .mp4, .ogg, .raw, .mov"
+                  />
+                  <ST.StyledLabelFile htmlFor="attend">
+                    <ST.ImageIconStyled />
+                    <ST.ImagesSplitter>|</ST.ImagesSplitter>
+                    <ST.VideoIconStyled />
+                  </ST.StyledLabelFile>
+                </ST.LoadImageWrapper>
+
+                <Button
+                  type="submit"
+                  text="Опубликовать"
+                  decoration="filled"
+                  size="sm"
+                />
+              </ST.CreatePostControlsWrapper>
+            </ST.CreatePostForm>
+          )}
+          {renderedPosts}
+        </>
+      )}
     </ST.PostsWrapper>
   );
 };

@@ -4,14 +4,13 @@ type ToastProps = {
   text: string;
 };
 
-type ReturnValue = {
+const useToast = (): {
   success: (props: ToastProps) => void;
-  error: (e: unknown) => void;
+  defaultToast: (props: ToastProps) => void;
   warning: (props: ToastProps) => void;
+  error: (e: unknown) => void;
   loading: (props: ToastProps) => void;
-};
-
-const useToast = (): ReturnValue => {
+} => {
   const success = (props: ToastProps) => {
     toast.success(props.text);
   };
@@ -28,7 +27,11 @@ const useToast = (): ReturnValue => {
     toast.loading(props.text);
   };
 
-  return { success, error, warning, loading };
+  const defaultToast = (props: ToastProps) => {
+    toast(props.text, { position: 'bottom-right' });
+  };
+
+  return { success, error, warning, loading, defaultToast };
 };
 
 export { useToast };

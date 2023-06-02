@@ -21,15 +21,7 @@ const Settings: FC = () => {
   };
 
   return (
-    <ST.SettingsWrapper
-      initial="hidden"
-      animate="visible"
-      exit={{ opacity: 0, transition: { duration: 1 } }}
-      variants={{
-        hidden: { opacity: 0, x: +20 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.3 } },
-      }}
-    >
+    <ST.SettingsWrapper key="SETTINGS_WRAPPER">
       <ST.SettingsTitle>Информация о пользователе</ST.SettingsTitle>
       <ST.SettingsBlockWrapper>
         <ST.SettingsBlock>
@@ -37,12 +29,12 @@ const Settings: FC = () => {
           <div>
             {`Зарегистрирован: ${registrationDate.toLocaleDateString()} / ${registrationDate
               .toLocaleTimeString()
-              .slice(0, 5)} (На сайте уже: ${diff()} дня)`}
+              .slice(0, -3)} (На сайте уже: ${diff()} д.)`}
           </div>
           <div>
             {`Последнее обновление профиля: ${updateDate.toLocaleDateString()} / ${updateDate
               .toLocaleTimeString()
-              .slice(0, 5)}`}
+              .slice(0, -3)}`}
           </div>
         </ST.SettingsBlock>
       </ST.SettingsBlockWrapper>
@@ -56,6 +48,30 @@ const Settings: FC = () => {
         </ST.SettingsBlock>
       </ST.SettingsBlockWrapper>
       <ST.SettingsBlock>
+        <ST.HelpingBlock>
+          <ST.HelpingBlockTitle>Инструкция к использованию</ST.HelpingBlockTitle>
+          <ST.HelpingBlockContent>
+            <ST.HelpingBlockList>
+              <ST.HelpingBlockListItem>
+                Чтобы увидеть в левом окне свой аватар, загрузите свою 3D модель нажатием на кнопку
+                Загрузить. Поддерживается любой формат 3D моделей.
+              </ST.HelpingBlockListItem>
+              <ST.HelpingBlockListItem>
+                В левом окне вы можете отредактировать положение вашей модели чтобы потом сделать из
+                нее аватар для профиля. Управление: лкм отвечает за поворот вокруг камеры по осям
+                xyz, пкм за поворот по xy, колесо за отдаление/приближение камеры.
+              </ST.HelpingBlockListItem>
+              <ST.HelpingBlockListItem>
+                Далее, отредактировав положение необходимо нажать на кнопку Фото 3D-аватара, для
+                того, чтобы загрузить изображение вашей модели на сервер.
+              </ST.HelpingBlockListItem>
+            </ST.HelpingBlockList>
+            <ST.HelpingBlockWelcome>
+              Добро пожаловать в frendy, мир 3D-аватаров! Желаем вам приятного времяпрепровождения
+              на нашем дружелюбном сайте!
+            </ST.HelpingBlockWelcome>
+          </ST.HelpingBlockContent>
+        </ST.HelpingBlock>
         <Avatar />
       </ST.SettingsBlock>
     </ST.SettingsWrapper>

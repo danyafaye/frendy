@@ -3,6 +3,16 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { COLORS } from '@src/constants/styles';
 
 export const GlobalStyles = createGlobalStyle`
+  .p-image-preview-container:hover > .p-image-preview-indicator{
+    background: none;
+  }
+  .p-image-preview-indicator .p-icon{
+    display:none;
+  }
+  .p-image-preview {
+    max-width: 600px;
+    max-height: 600px;
+  }
   * {
     padding: 0;
     margin: 0;

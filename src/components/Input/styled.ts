@@ -28,6 +28,7 @@ export const Input = styled.input<Partial<InputProps>>`
           color: ${COLORS.$gray90};
           &::placeholder {
             opacity: 0.35;
+            font-size: 16px;
           }
         `;
       default:
@@ -37,6 +38,13 @@ export const Input = styled.input<Partial<InputProps>>`
         `;
     }
   }};
+  ${(props) => {
+    if (props.icon) {
+      return css`
+        padding-right: 55px !important;
+      `;
+    }
+  }}
   ${(props) => {
     if (props.error) {
       return css`
@@ -77,6 +85,7 @@ export const Label = styled.label`
   color: ${COLORS.$purple50};
   font-size: 24px;
   gap: 5px;
+  width: 100%;
 `;
 
 export const InputWrapper = styled.div`
@@ -85,7 +94,7 @@ export const InputWrapper = styled.div`
 
 export const InputRightIcon = styled.div<Partial<InputProps>>`
   position: absolute;
-  right: 15px;
+  right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
