@@ -1,6 +1,8 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LINKS } from '@src/links';
+
 import { useLazyGetUsersListQuery } from '@api/UsersApi/UsersApi';
 import { UsersDTO } from '@api/UsersApi';
 
@@ -43,7 +45,8 @@ const SearchUsers: FC = () => {
   const onClickAutoCompleteHandler = useCallback(
     (e: React.MouseEvent<HTMLLIElement>, id: string) => {
       setIsOpen(!isOpen);
-      navigate(`/main/profile?id=${id}`);
+      setSearch('');
+      navigate(`${LINKS.profile}?id=${id}`);
     },
     [isOpen],
   );

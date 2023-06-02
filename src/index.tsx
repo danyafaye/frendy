@@ -7,9 +7,10 @@ import { CircleLoader } from 'react-spinners';
 
 import { store } from '@store/root';
 
-import { AuthProvider } from '@src/providers/AuthProvider/AuthProvider';
-
 import 'react-toastify/dist/ReactToastify.css';
+
+import { AuthProvider } from '@src/providers/AuthProvider/AuthProvider';
+import { SocketProvider } from '@src/providers/SocketProvider';
 
 import { App } from '@components/App';
 
@@ -34,19 +35,21 @@ root.render(
             />
           }
         >
-          <App />
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+          <SocketProvider>
+            <App />
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </SocketProvider>
         </Suspense>
       </AuthProvider>
     </Provider>

@@ -28,6 +28,7 @@ export const Input = styled.input<Partial<InputProps>>`
           color: ${COLORS.$gray90};
           &::placeholder {
             opacity: 0.35;
+            font-size: 16px;
           }
         `;
       default:
@@ -84,6 +85,7 @@ export const Label = styled.label`
   color: ${COLORS.$purple50};
   font-size: 24px;
   gap: 5px;
+  width: 100%;
 `;
 
 export const InputWrapper = styled.div`

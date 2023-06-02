@@ -24,14 +24,17 @@ import { handleFormError } from '@utils/handleFormError';
 import HeaderTemplate from '@assets/header_template.png';
 
 import * as ST from '../../styled';
-import { StyledInputFile, StyledLabelFile } from '../../styled';
+
+const VIDEO_FORMATS = ['h264', 'mp4', 'ogg', 'raw', 'mov'];
+const IMAGE_FORMATS = ['bmp', 'png', 'jpg', 'gif', 'jpeg', 'heic', 'webp'];
 
 const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
   const toast = useToast();
   const [userPosts, setUserPosts] = useState<UserPostsDTO[]>([]);
   const [isEditPost, setIsEditPost] = useState('');
   const [editInputValue, setEditInputValue] = useState('');
-  const [image, setImage] = useState<string>();
+  const [file, setFile] = useState<string>();
+  const [fileType, setFileType] = useState<string>();
 
   const [getUsersPost, { status: userPostsIsLoading }] = useLazyGetUserPostsQuery();
 
@@ -72,13 +75,24 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
         const formData = new FormData();
         formData.append('attached', values.attached);
         formData.append('text', values.text);
-        const res = await createUserPost(formData);
-        if ('error' in res) {
-          handleFormError(res.error, createPostForm);
+        if (!values.text && !values.attached.name) {
+          toast.error({
+            data: { message: 'Для публикации поста необходимо указать текст или загрузить файл' },
+          });
         } else {
-          toast.success({ text: 'Пост опубликован!' });
-          await getUsersPostHandler();
-          createPostForm.resetForm();
+          const res = await createUserPost(formData);
+          if ('error' in res) {
+            handleFormError(res.error, createPostForm);
+          } else {
+            toast.success({ text: 'Пост опубликован!' });
+            setFile('');
+            setFileType('');
+            if (typeof file === 'string') {
+              window.URL.revokeObjectURL(file);
+            }
+            await getUsersPostHandler();
+            createPostForm.resetForm();
+          }
         }
       } catch (e) {
         throw e;
@@ -93,7 +107,7 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост удален!' });
-        await getUsersPostHandler();
+        setUserPosts(userPosts.filter((p) => p.id !== id));
       }
     } catch (e) {
       throw e;
@@ -107,8 +121,14 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
         toast.error(res.error);
       } else {
         toast.success({ text: 'Пост отредактирован!' });
-        await getUsersPostHandler();
         setIsEditPost('');
+        setUserPosts(
+          userPosts.map((post) => {
+            if (post.id === request.id) {
+              return res.data;
+            } else return post;
+          }),
+        );
       }
     } catch (e) {
       throw e;
@@ -122,7 +142,9 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = (e.target.files as FileList)[0];
     createPostForm.setFieldValue('attached', file);
-    setImage(window.URL.createObjectURL(file));
+    const fileType = file.type.split('/')[0];
+    setFile(window.URL.createObjectURL(file));
+    setFileType(fileType);
   };
 
   const renderedPosts = useMemo(() => {
@@ -130,6 +152,8 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
       userPosts.map((it) => {
         const postCreated = new Date(it.createdAt);
         const { user } = it;
+        const isVideo = VIDEO_FORMATS.includes(it.attached?.split('.').at(-1) as string);
+        const isImage = IMAGE_FORMATS.includes(it.attached?.split('.').at(-1) as string);
         return (
           <ST.Post key={it.id}>
             <ST.PostHeader>
@@ -146,7 +170,7 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
                   </ST.PostHeaderUpperContent>
                   <ST.PostHeaderBottomContent>
                     {postCreated.toLocaleDateString()}{' '}
-                    {postCreated.toLocaleTimeString().slice(0, 5)}
+                    {postCreated.toLocaleTimeString().slice(0, -3)}
                   </ST.PostHeaderBottomContent>
                 </ST.PostHeaderContent>
               </ST.PostHeaderLeftContent>
@@ -174,14 +198,31 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
                   />
                 </ST.UserPostEditWrapper>
               ) : (
-                it.text
+                <div>{it.text}</div>
               )}
-
-              <img
-                src={it.attached}
-                alt="image"
-              />
+              {it.attached && (
+                <>
+                  {isImage && (
+                    <ST.StyledAttachedWrapper>
+                      <ST.StyledPostImage
+                        src={it.attached}
+                        alt="image"
+                        preview
+                      />
+                    </ST.StyledAttachedWrapper>
+                  )}
+                  {isVideo && (
+                    <ST.StyledAttachedWrapper>
+                      <ST.StyledPostPlayer
+                        controls
+                        url={it.attached}
+                      />
+                    </ST.StyledAttachedWrapper>
+                  )}
+                </>
+              )}
             </ST.PostContent>
+            {/* TODO: реализовать когда сделаются на бэке лайки и комменты
             <ST.PostFooter>
               <ST.IconsWrapper>
                 <ST.LikeStyled />
@@ -189,7 +230,7 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
               <ST.IconsWrapper>
                 <ST.CommentStyled />
               </ST.IconsWrapper>
-            </ST.PostFooter>
+            </ST.PostFooter>*/}
           </ST.Post>
         );
       })
@@ -199,6 +240,12 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
       </ST.PostsPlug>
     );
   }, [userPosts, userPostsIsLoading, isEditPost, editInputValue, otherUserId, userInfo]);
+
+  const onCloseIconClick = () => {
+    setFile('');
+    setFileType('');
+    createPostForm.setFieldValue('attached', {});
+  };
 
   return (
     <ST.PostsWrapper>
@@ -222,23 +269,44 @@ const Posts: FC<MiniProfilePostsProps> = ({ userInfo, otherUserId }) => {
                 name="text"
                 placeholder="Что у вас нового?"
               />
-              {image && (
-                <img
-                  src={image}
-                  alt="img"
-                />
-              )}
+              {file &&
+                (fileType === 'image' ? (
+                  <ST.StyledAttachedWrapper>
+                    <ST.StyledImageDiv>
+                      <ST.StyledPostImage
+                        src={file}
+                        alt="img"
+                        preview
+                      />
+                      <ST.StyledCloseIcon onClick={onCloseIconClick}>x</ST.StyledCloseIcon>
+                    </ST.StyledImageDiv>
+                  </ST.StyledAttachedWrapper>
+                ) : (
+                  <ST.StyledAttachedWrapper>
+                    <ST.StyledImageDiv>
+                      <ST.StyledPostPlayer
+                        controls
+                        url={file}
+                      />
+                      <ST.StyledCloseIcon onClick={onCloseIconClick}>x</ST.StyledCloseIcon>
+                    </ST.StyledImageDiv>
+                  </ST.StyledAttachedWrapper>
+                ))}
               <ST.CreatePostControlsWrapper>
                 <ST.LoadImageWrapper>
-                  <StyledInputFile
+                  <ST.StyledInputFile
                     name="attend"
                     id="attend"
                     type="file"
                     onChange={onChangeHandler}
+                    hidden
+                    accept=".bmp, .png, .jpg, .gif, .jpeg, .heic, .webp, .h264, .mp4, .ogg, .raw, .mov"
                   />
-                  <StyledLabelFile htmlFor="attend">
+                  <ST.StyledLabelFile htmlFor="attend">
                     <ST.ImageIconStyled />
-                  </StyledLabelFile>
+                    <ST.ImagesSplitter>|</ST.ImagesSplitter>
+                    <ST.VideoIconStyled />
+                  </ST.StyledLabelFile>
                 </ST.LoadImageWrapper>
 
                 <Button

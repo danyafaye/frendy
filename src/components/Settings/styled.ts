@@ -63,3 +63,43 @@ export const EyeIconStyled = styled(EyeIcon)`
 export const EyeCloseIconStyled = styled(EyeCloseIcon)`
   cursor: pointer;
 `;
+
+export const HelpingBlock = styled.div`
+  width: 100%;
+  background-color: ${COLORS.$white80};
+  border-radius: 8px;
+  border: 1px solid #d5dadd;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+export const HelpingBlockTitle = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+`;
+
+export const HelpingBlockContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+export const HelpingBlockList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+`;
+
+export const HelpingBlockListItem = styled.li`
+  font-size: 16px;
+  margin-left: 18px;
+  list-style: decimal;
+`;
+
+export const HelpingBlockWelcome = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+`;

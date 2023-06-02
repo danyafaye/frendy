@@ -13,12 +13,12 @@ const DialogsApi = api.injectEndpoints({
         url: `/dialogs`,
       }),
     }),
-    getMessages: build.query<MessagesDTO[], { id: string }>({
+    getMessages: build.query<MessagesDTO, { id: string }>({
       query: ({ id }) => ({
         url: `/dialogs/${id}`,
       }),
     }),
-    createDialogs: build.mutation<DialogsCreateDTO[], DialogsCreateRequestDTO>({
+    createDialogs: build.mutation<DialogsCreateDTO, DialogsCreateRequestDTO>({
       query: (dto) => ({
         url: '/dialogs/create',
         body: dto,
@@ -28,6 +28,11 @@ const DialogsApi = api.injectEndpoints({
   }),
 });
 
-export const {} = DialogsApi;
+export const {
+  useCreateDialogsMutation,
+  useGetDialogsQuery,
+  useLazyGetDialogsQuery,
+  useLazyGetMessagesQuery,
+} = DialogsApi;
 
 export { DialogsApi };

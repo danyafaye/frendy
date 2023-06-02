@@ -16,7 +16,7 @@ import { handleFormError } from '@utils/handleFormError';
 import * as ST from '../../styled';
 
 const PersonalForm: FC = () => {
-  const { userInfo, getProfile } = useAuth();
+  const { userInfo, updateUserInfoField } = useAuth();
   const [changeUserInfo] = useChangeUserPersonalInfoMutation();
 
   const toast = useToast();
@@ -34,7 +34,8 @@ const PersonalForm: FC = () => {
           handleFormError(res.error, personalInfoForm);
         } else {
           toast.success({ text: 'Информация успешно изменена' });
-          await getProfile();
+          updateUserInfoField('firstName', firstName);
+          updateUserInfoField('lastName', lastName);
         }
       } catch (e) {
         throw e;

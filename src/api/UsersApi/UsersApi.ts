@@ -76,7 +76,7 @@ const UsersApi = api.injectEndpoints({
         method: 'delete',
       }),
     }),
-    editUserPost: build.mutation<void, EditUserPostRequestDTO>({
+    editUserPost: build.mutation<UserPostsDTO, EditUserPostRequestDTO>({
       query: (dto) => ({
         url: `/posts/${dto.id}`,
         body: { text: dto.text },

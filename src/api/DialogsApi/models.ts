@@ -40,4 +40,20 @@ type MessagesDTO = {
   messages: MessageType[];
 };
 
-export type { DialogsCreateRequestDTO, DialogsDTO, MessagesDTO, DialogsCreateDTO };
+type DeletedMessageDTO = {
+  messageId: string;
+};
+
+type SendMessageDTO = {
+  text: string;
+  dialogId: string;
+};
+
+export type {
+  DialogsCreateRequestDTO,
+  DialogsDTO,
+  MessagesDTO,
+  DialogsCreateDTO,
+  DeletedMessageDTO,
+  SendMessageDTO,
+};

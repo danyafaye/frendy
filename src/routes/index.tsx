@@ -3,8 +3,6 @@ import { lazy } from 'react';
 
 import { LINKS } from '@src/links';
 
-import { PageGuard } from '@components/PageGuard';
-
 const ProfilePage = lazy(() => import('@src/pages/ProfilePage'));
 const WelcomePage = lazy(() => import('@src/pages/WelcomePage'));
 const AuthPage = lazy(() => import('@src/pages/AuthPage'));
@@ -23,25 +21,11 @@ const ROUTES: RouteObject[] = [
   },
   {
     path: LINKS.auth,
-    element: (
-      <PageGuard
-        type="auth"
-        Navigate={<Navigate to={LINKS.main} />}
-      >
-        <AuthPage />
-      </PageGuard>
-    ),
+    element: <AuthPage />,
   },
   {
     path: LINKS.main,
-    element: (
-      <PageGuard
-        type="main"
-        Navigate={<Navigate to={LINKS.auth} />}
-      >
-        <ProfilePage />
-      </PageGuard>
-    ),
+    element: <ProfilePage />,
     children: [
       {
         index: true,
@@ -54,10 +38,6 @@ const ROUTES: RouteObject[] = [
       },
       {
         path: LINKS.profile,
-        element: <ProfileContentPage />,
-      },
-      {
-        path: '/main/profile?user_id=:user_id',
         element: <ProfileContentPage />,
       },
       {
