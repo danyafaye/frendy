@@ -228,3 +228,5 @@ export const DeleteMessageWindow = styled.div<{ openDialog: boolean }>`
     background-color: ${COLORS.$purple50};
   }
 `;
+
+export const DialogsPlug = styled(ChatPlug)``;

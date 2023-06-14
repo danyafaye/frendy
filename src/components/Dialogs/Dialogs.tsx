@@ -317,45 +317,53 @@ const Dialogs: FC = () => {
       }}
       key="DIALOGS_WRAPPER"
     >
-      <ST.DialogsLeftSide>{renderMinifiedDialogs}</ST.DialogsLeftSide>
-      <ST.DialogsRightSide>
-        {!messageIsOpen ? (
-          <ST.ChatPlug>
-            <ST.ChatPlugIcon />
-            Выберите чат чтобы начать общение
-          </ST.ChatPlug>
-        ) : (
-          <>
-            <ST.MessageHeader onClick={onHeaderClickHandler}>
-              {messagesUser?.avatar ? (
-                <ST.MinifiedAvatar src={messagesUser?.avatar} />
-              ) : (
-                <ST.MinifiedAvatar src={HeaderTemplate} />
-              )}
-              <ST.MessageHeaderContent>
-                {messagesUser?.firstName} {messagesUser?.lastName}
-              </ST.MessageHeaderContent>
-            </ST.MessageHeader>
-            <ST.MessageWrapper onScroll={scrollHandler}>{renderMessages}</ST.MessageWrapper>
-            <ST.InputWrapper>
-              <Input
-                inputSize="md"
-                decoration="filled"
-                placeholder="Написать сообщение..."
-                value={messageValue}
-                onChange={(e) => setMessageValue(e.target.value)}
-                onKeyDown={onKeyPress}
-              />
-              <Button
-                decoration="default"
-                size="sm"
-                text="Отправить"
-                onClick={onClickSendMessage}
-              />
-            </ST.InputWrapper>
-          </>
-        )}
-      </ST.DialogsRightSide>
+      {dialogs.length === 0 ? (
+        <ST.DialogsPlug>
+          Для того, чтобы начать диалог, найдите пользователя, и напишите ему ваше первое сообщение.
+        </ST.DialogsPlug>
+      ) : (
+        <>
+          <ST.DialogsLeftSide>{renderMinifiedDialogs}</ST.DialogsLeftSide>
+          <ST.DialogsRightSide>
+            {!messageIsOpen ? (
+              <ST.ChatPlug>
+                <ST.ChatPlugIcon />
+                Выберите чат чтобы начать общение
+              </ST.ChatPlug>
+            ) : (
+              <>
+                <ST.MessageHeader onClick={onHeaderClickHandler}>
+                  {messagesUser?.avatar ? (
+                    <ST.MinifiedAvatar src={messagesUser?.avatar} />
+                  ) : (
+                    <ST.MinifiedAvatar src={HeaderTemplate} />
+                  )}
+                  <ST.MessageHeaderContent>
+                    {messagesUser?.firstName} {messagesUser?.lastName}
+                  </ST.MessageHeaderContent>
+                </ST.MessageHeader>
+                <ST.MessageWrapper onScroll={scrollHandler}>{renderMessages}</ST.MessageWrapper>
+                <ST.InputWrapper>
+                  <Input
+                    inputSize="md"
+                    decoration="filled"
+                    placeholder="Написать сообщение..."
+                    value={messageValue}
+                    onChange={(e) => setMessageValue(e.target.value)}
+                    onKeyDown={onKeyPress}
+                  />
+                  <Button
+                    decoration="default"
+                    size="sm"
+                    text="Отправить"
+                    onClick={onClickSendMessage}
+                  />
+                </ST.InputWrapper>
+              </>
+            )}
+          </ST.DialogsRightSide>
+        </>
+      )}
     </ST.DialogsWrapper>
   );
 };
